@@ -137,7 +137,6 @@ public class WorldMapGen : MonoBehaviour {
                 def.Sprite,
                 c);
             tile.Text.text = def.Text;
-            Debug.Log(tile.Text.text);
         }
     }
 
