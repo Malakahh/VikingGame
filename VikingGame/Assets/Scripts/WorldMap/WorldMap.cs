@@ -12,6 +12,9 @@ public class WorldMap : MonoBehaviour {
     public List<BuildingDefinition> Buildings = new List<BuildingDefinition>() {
         new BuildingDefinition(BuildingDefinition.Type.Tavern)
     };
+    public List<OverlayDefinition> Overlays = new List<OverlayDefinition>() {
+        new OverlayDefinition(OverlayDefinition.Type.FogOfWar)
+    };
 
     //Key: TileCoord (as opposed to world coord); value: Tile 
     public Dictionary<Vector2, WorldMapHexagonTile> WorldRepresentation = new Dictionary<Vector2, WorldMapHexagonTile>();
@@ -21,6 +24,46 @@ public class WorldMap : MonoBehaviour {
         if (Instance == null)
         {
             Instance = this;
+        }
+    }
+
+    void Start()
+    {
+        WorldMapGen.Instance.GenerateMap();
+        InitializeFogOfWar();
+        UpdateFogOfWar();
+    }
+
+    void InitializeFogOfWar()
+    {
+        foreach (WorldMapHexagonTile tile in this.WorldRepresentation.Values)
+        {
+            OverlayDefinition def = Overlays[(int)OverlayDefinition.Type.FogOfWar];
+            tile.Overlay.sprite = def.Sprite;
+            tile.Overlay.color = def.Color;
+        }
+    }
+
+    public void UpdateFogOfWar()
+    {
+        if (WorldRepresentation.ContainsKey(new Vector2(0,0)))
+        {
+            WorldMapHexagonTile tile = WorldRepresentation[new Vector2(0, 0)];
+            tile.Visited = true;
+            tile.Overlay.sprite = null;
+            UpdateFogOfWarTile(tile);
+        }
+    }
+
+    void UpdateFogOfWarTile(WorldMapHexagonTile tile)
+    {
+        if (tile.Visited)
+        { 
+            foreach (WorldMapHexagonTile neighbour in tile.Neighbours)
+            {
+                neighbour.Overlay.sprite = null;
+                UpdateFogOfWarTile(neighbour);
+            }
         }
     }
 
@@ -78,6 +121,30 @@ public class BuildingDefinition
     { }
 
     public BuildingDefinition(Type text)
+        : this(text.GetName())
+    { }
+}
+
+[System.Serializable]
+public class OverlayDefinition
+{
+    public enum Type { FogOfWar }
+
+    public string Text;
+    public Sprite Sprite;
+    public Color Color = new Color().RGB32(0xff, 0xff, 0xff);
+
+    public OverlayDefinition(string text, Sprite sprite)
+    {
+        this.Text = text;
+        this.Sprite = sprite;
+    }
+
+    public OverlayDefinition(string text)
+        : this(text, null)
+    { }
+
+    public OverlayDefinition(Type text)
         : this(text.GetName())
     { }
 }

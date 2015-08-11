@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public delegate void VoidDelegate();
+
 public static class ExtensionMethods {
     public static UnityEngine.Color RGB32(this UnityEngine.Color c, byte r, byte g, byte b)
     {

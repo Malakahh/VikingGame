@@ -3,17 +3,22 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class WorldMapGen : MonoBehaviour {
+    public static WorldMapGen Instance;
+
     float magicXOffset = 0.65f;
     float magixYOffset = 0.49f;
     int mapSizeX = 19;
     int mapSizeY = 19;
 
-	void Start()
+    void Awake()
     {
-        GenerateMap();
+        if (Instance == null)
+        {
+            Instance = this;
+        }
     }
 
-    void GenerateMap()
+    public void GenerateMap()
     {
         GenerateWorldModelRepresentation();
         MakeTerrain();
@@ -146,10 +151,12 @@ public class WorldMapGen : MonoBehaviour {
         if (WorldMap.Instance.WorldRepresentation.ContainsKey(new Vector2(0,0)))
         {
             WorldMapHexagonTile tile = WorldMap.Instance.WorldRepresentation[new Vector2(0, 0)];
+            BuildingDefinition def = WorldMap.Instance.Buildings[(int)BuildingDefinition.Type.Tavern];
+
             tile.SetTerrain(
-                WorldMap.Instance.Buildings[(int)BuildingDefinition.Type.Tavern].Sprite,
+                def.Sprite,
                 new Color().RGB32(0x66, 0x33, 0x00));
-            tile.Text.text = "Tavern";
+            tile.Text.text = def.Text;
         }
     }
 }

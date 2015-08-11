@@ -9,7 +9,9 @@ public class WorldMapHexagonTile : MonoBehaviour
 
     public Vector2 TileCoordinate;
     public WorldMapHexagonTile[] Neighbours = new WorldMapHexagonTile[6];
-    
+
+    public bool Visited { get; set; }
+
     public void SetTerrain(Sprite sprite)
     {
         SetTerrain(sprite, Color.white);
