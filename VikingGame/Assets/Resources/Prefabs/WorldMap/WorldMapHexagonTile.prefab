@@ -26,6 +26,7 @@ GameObject:
   - 4: {fileID: 461790}
   - 212: {fileID: 21258988}
   - 114: {fileID: 11496368}
+  - 60: {fileID: 6042754}
   m_Layer: 0
   m_Name: WorldMapHexagonTile
   m_TagString: Untagged
@@ -112,6 +113,27 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
+--- !u!60 &6042754
+PolygonCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 114796}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  m_Points:
+    m_Paths:
+    - - {x: -.00288908556, y: .313575804}
+      - {x: -.319999993, y: .159313306}
+      - {x: -.317858577, y: -.15787892}
+      - {x: .00135298073, y: -.322141379}
+      - {x: .00503048673, y: -.317858577}
+      - {x: .317858577, y: -.15717192}
+      - {x: .319999993, y: .160020337}
+      - {x: .000788360834, y: .313575834}
 --- !u!102 &10236006
 TextMesh:
   serializedVersion: 3
@@ -205,7 +227,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 21566dc5584aae24cb0201f1aa2a79df, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &100100000
 Prefab:

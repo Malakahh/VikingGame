@@ -13,7 +13,8 @@ public class WorldMap : MonoBehaviour {
         new BuildingDefinition(BuildingDefinition.Type.Tavern)
     };
     public List<OverlayDefinition> Overlays = new List<OverlayDefinition>() {
-        new OverlayDefinition(OverlayDefinition.Type.FogOfWar)
+        new OverlayDefinition(OverlayDefinition.Type.FogOfWar),
+        new OverlayDefinition(OverlayDefinition.Type.Hover)
     };
 
     //Key: TileCoord (as opposed to world coord); value: Tile 
@@ -31,7 +32,6 @@ public class WorldMap : MonoBehaviour {
     {
         WorldMapGen.Instance.GenerateMap();
         InitializeFogOfWar();
-        UpdateFogOfWar();
     }
 
     void InitializeFogOfWar()
@@ -42,27 +42,35 @@ public class WorldMap : MonoBehaviour {
             tile.Overlay.sprite = def.Sprite;
             tile.Overlay.color = def.Color;
         }
-    }
 
-    public void UpdateFogOfWar()
-    {
-        if (WorldRepresentation.ContainsKey(new Vector2(0,0)))
+        if (WorldRepresentation.ContainsKey(new Vector2(0, 0)))
         {
             WorldMapHexagonTile tile = WorldRepresentation[new Vector2(0, 0)];
             tile.Visited = true;
             tile.Overlay.sprite = null;
-            UpdateFogOfWarTile(tile);
+        }
+
+        UpdateFogOfWar();
+    }
+
+    public void UpdateFogOfWar()
+    {
+        foreach (WorldMapHexagonTile tile in WorldRepresentation.Values)
+        {
+            ClearTileFOW(tile);
         }
     }
 
-    void UpdateFogOfWarTile(WorldMapHexagonTile tile)
+    void ClearTileFOW(WorldMapHexagonTile tile)
     {
         if (tile.Visited)
-        { 
-            foreach (WorldMapHexagonTile neighbour in tile.Neighbours)
+        {
+            for (int i = 0; i < tile.Neighbours.Length; i++)
             {
-                neighbour.Overlay.sprite = null;
-                UpdateFogOfWarTile(neighbour);
+                if (tile.Neighbours[i] != null)
+                {
+                    tile.Neighbours[i].Overlay.sprite = null;
+                }
             }
         }
     }
@@ -74,6 +82,25 @@ public class WorldMap : MonoBehaviour {
         foreach (WorldMapHexagonTile tile in WorldRepresentation.Values)
         {
             tile.Text.text = tile.TileCoordinate.ToString();
+        }
+    }
+
+    public void MapModeVisisted()
+    {
+        Debug.Log("MapMode: Visited Tiles");
+
+        foreach (WorldMapHexagonTile tile in WorldRepresentation.Values)
+        {
+            if (tile.Visited)
+            {
+                tile.Text.text = "Visited";
+                tile.Text.color = new Color().RGB32(0xFF, 0x00, 0x00);
+            }
+            else
+            {
+                tile.Text.text = "Not\nVisisted";
+                tile.Text.color = new Color().RGB32(0x00, 0x00, 0xFF);
+            }
         }
     }
 }
@@ -128,7 +155,7 @@ public class BuildingDefinition
 [System.Serializable]
 public class OverlayDefinition
 {
-    public enum Type { FogOfWar }
+    public enum Type { FogOfWar, Hover }
 
     public string Text;
     public Sprite Sprite;

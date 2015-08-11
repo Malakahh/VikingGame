@@ -53,6 +53,13 @@ MonoBehaviour:
   Buildings:
   - Text: Tavern
     Sprite: {fileID: 21300000, guid: f2e421876bcdb2b4ea85ce55db2314d9, type: 3}
+  Overlays:
+  - Text: FogOfWar
+    Sprite: {fileID: 21300000, guid: f0d501ff7e6d4964089aa4091c81b6c6, type: 3}
+    Color: {r: .215686277, g: .215686277, b: .215686277, a: .882352948}
+  - Text: Hover
+    Sprite: {fileID: 21300000, guid: ec5957e74c540ed44bf103238d6b233b, type: 3}
+    Color: {r: 1, g: 1, b: 0, a: 1}
 --- !u!114 &11460936
 MonoBehaviour:
   m_ObjectHideFlags: 1
