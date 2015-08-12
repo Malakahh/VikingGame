@@ -122,26 +122,8 @@ public class WorldMapGen : MonoBehaviour {
         foreach (WorldMapHexagonTile tile in WorldMap.Instance.WorldRepresentation.Values)
         {
             int ran = randomizer.GetRandomIndex();
-            
-            Color c = new Color();
-            switch ((TerrainDefinition.Type)ran)
-	        {
-		        case TerrainDefinition.Type.Plains:
-                    c = c.RGB32(0x00, 0xFF, 0x00);
-                    break;
-                case TerrainDefinition.Type.Forest:
-                    c = c.RGB32(0x00, 0x66, 0x00);
-                    break;
-                case TerrainDefinition.Type.Mountains:
-                    c = c.RGB32(0x99, 0x99, 0x99);
-                    break;
-	        }
-
             TerrainDefinition def = WorldMap.Instance.Terrain[ran];
-            tile.SetTerrain(
-                def.Sprite,
-                c);
-            tile.Text.text = def.Text;
+            tile.Terrain = def;
         }
     }
 
@@ -151,12 +133,7 @@ public class WorldMapGen : MonoBehaviour {
         if (WorldMap.Instance.WorldRepresentation.ContainsKey(new Vector2(0,0)))
         {
             WorldMapHexagonTile tile = WorldMap.Instance.WorldRepresentation[new Vector2(0, 0)];
-            BuildingDefinition def = WorldMap.Instance.Buildings[(int)BuildingDefinition.Type.Tavern];
-
-            tile.SetTerrain(
-                def.Sprite,
-                new Color().RGB32(0x66, 0x33, 0x00));
-            tile.Text.text = def.Text;
+            tile.Building = WorldMap.Instance.Buildings[(int)BuildingDefinition.Type.Tavern];
         }
     }
 }

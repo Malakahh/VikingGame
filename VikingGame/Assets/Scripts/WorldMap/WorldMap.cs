@@ -38,40 +38,23 @@ public class WorldMap : MonoBehaviour {
     {
         foreach (WorldMapHexagonTile tile in this.WorldRepresentation.Values)
         {
-            OverlayDefinition def = Overlays[(int)OverlayDefinition.Type.FogOfWar];
-            tile.Overlay.sprite = def.Sprite;
-            tile.Overlay.color = def.Color;
+            tile.FogOfWar = true;
         }
 
         if (WorldRepresentation.ContainsKey(new Vector2(0, 0)))
         {
-            WorldMapHexagonTile tile = WorldRepresentation[new Vector2(0, 0)];
-            tile.Visited = true;
-            tile.Overlay.sprite = null;
+            WorldRepresentation[new Vector2(0, 0)].Visited = true;
         }
-
-        UpdateFogOfWar();
     }
 
-    public void UpdateFogOfWar()
+    public void MapModeDefault()
     {
+        Debug.Log("MapMode: Default");
+
         foreach (WorldMapHexagonTile tile in WorldRepresentation.Values)
         {
-            ClearTileFOW(tile);
-        }
-    }
-
-    void ClearTileFOW(WorldMapHexagonTile tile)
-    {
-        if (tile.Visited)
-        {
-            for (int i = 0; i < tile.Neighbours.Length; i++)
-            {
-                if (tile.Neighbours[i] != null)
-                {
-                    tile.Neighbours[i].Overlay.sprite = null;
-                }
-            }
+            tile.Terrain = tile.Terrain;
+            tile.Building = tile.Building;
         }
     }
 
@@ -82,6 +65,7 @@ public class WorldMap : MonoBehaviour {
         foreach (WorldMapHexagonTile tile in WorldRepresentation.Values)
         {
             tile.Text.text = tile.TileCoordinate.ToString();
+            tile.Sprite.color = tile.Terrain.Mask;
         }
     }
 
@@ -94,12 +78,12 @@ public class WorldMap : MonoBehaviour {
             if (tile.Visited)
             {
                 tile.Text.text = "Visited";
-                tile.Text.color = new Color().RGB32(0xFF, 0x00, 0x00);
+                tile.Sprite.color = new Color().RGB32(0xAA, 0xAA, 0xAA);
             }
             else
             {
                 tile.Text.text = "Not\nVisisted";
-                tile.Text.color = new Color().RGB32(0x00, 0x00, 0xFF);
+                tile.Sprite.color = new Color().RGB32(0x00, 0xFF, 0x00);
             }
         }
     }
@@ -110,22 +94,22 @@ public class TerrainDefinition
 {
     public enum Type { Plains, Forest, Mountains }
 
+    public Type TerrainType;
     public string Text;
     public Sprite Sprite;
     public int Weight = 1;
+    public Color Mask = new Color().RGB32(0xff, 0xff, 0xff);
 
-    public TerrainDefinition(string text, Sprite sprite)
+    public TerrainDefinition(Type TerrainType, Sprite Sprite)
     {
-        this.Text = text;
-        this.Sprite = sprite;
+        this.TerrainType = TerrainType;
+        this.Sprite = Sprite;
+
+        this.Text = this.TerrainType.GetName();
     }
 
-    public TerrainDefinition(string text)
-        : this(text, null)
-    { }
-
-    public TerrainDefinition(Type text)
-        : this(text.GetName())
+    public TerrainDefinition(Type TerrainType)
+        : this(TerrainType, null)
     { }
 }
 
@@ -134,21 +118,21 @@ public class BuildingDefinition
 {
     public enum Type { Tavern }
 
+    public Type BuildingType;
     public string Text;
     public Sprite Sprite;
+    public Color Mask = new Color().RGB32(0xff, 0xff, 0xff);
 
-    public BuildingDefinition(string text, Sprite sprite)
+    public BuildingDefinition(Type BuildingType, Sprite sprite)
     {
-        this.Text = text;
+        this.BuildingType = BuildingType;
         this.Sprite = sprite;
+
+        this.Text = this.BuildingType.GetName();
     }
 
-    public BuildingDefinition(string text)
-        : this(text, null)
-    { }
-
-    public BuildingDefinition(Type text)
-        : this(text.GetName())
+    public BuildingDefinition(Type BuildingType)
+        : this(BuildingType, null)
     { }
 }
 
@@ -157,21 +141,20 @@ public class OverlayDefinition
 {
     public enum Type { FogOfWar, Hover }
 
+    public Type OverlayType;
     public string Text;
     public Sprite Sprite;
-    public Color Color = new Color().RGB32(0xff, 0xff, 0xff);
+    public Color Mask = new Color().RGB32(0xff, 0xff, 0xff);
 
-    public OverlayDefinition(string text, Sprite sprite)
+    public OverlayDefinition(Type OverlayType, Sprite sprite)
     {
-        this.Text = text;
+        this.OverlayType = OverlayType;
         this.Sprite = sprite;
+
+        this.Text = this.OverlayType.GetName();
     }
 
-    public OverlayDefinition(string text)
-        : this(text, null)
-    { }
-
-    public OverlayDefinition(Type text)
-        : this(text.GetName())
+    public OverlayDefinition(Type OverlayType)
+        : this(OverlayType, null)
     { }
 }
