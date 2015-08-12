@@ -5,7 +5,7 @@ public class WorldMapHexagonTile : MonoBehaviour
 {
     public TextMesh Text;
     public SpriteRenderer Sprite;
-    public SpriteRenderer Overlay;
+    public SpriteRenderer FogOfWarRenderer;
 
     public Vector2 TileCoordinate;
     public WorldMapHexagonTile[] Neighbours = new WorldMapHexagonTile[6];
@@ -20,14 +20,11 @@ public class WorldMapHexagonTile : MonoBehaviour
 
             if (_terrain != null)
             {
+                this.Sprite.color = _terrain.Mask;
+
                 if (_terrain.Sprite != null)
                 {
                     this.Sprite.sprite = _terrain.Sprite;
-                }
-
-                if (_terrain.Mask != null)
-                {
-                    this.Sprite.color = _terrain.Mask;
                 }
 
                 if (_terrain.Text != null)
@@ -48,14 +45,11 @@ public class WorldMapHexagonTile : MonoBehaviour
 
             if (_building != null)
             {
+                this.Sprite.color = _building.Mask;
+                
                 if (_building.Sprite != null)
                 {
                     this.Sprite.sprite = _building.Sprite;
-                }
-
-                if (_building.Mask != null)
-                {
-                    this.Sprite.color = _building.Mask;
                 }
 
                 if (_building.Text != null)
@@ -76,9 +70,13 @@ public class WorldMapHexagonTile : MonoBehaviour
             if (_visited)
             {
                 this.FogOfWar = false;
-                foreach (WorldMapHexagonTile neighbour in this.Neighbours)
+
+                for (int i = 0; i < this.Neighbours.Length; i++)
                 {
-                    neighbour.FogOfWar = false;
+                    if (this.Neighbours[i] != null)
+                    {
+                        this.Neighbours[i].FogOfWar = false;
+                    }
                 }
             }
         }
@@ -93,48 +91,15 @@ public class WorldMapHexagonTile : MonoBehaviour
             if (value)
             {
                 OverlayDefinition def = WorldMap.Instance.Overlays[(int)OverlayDefinition.Type.FogOfWar];
-                this.Overlay.sprite = def.Sprite;
-                this.Overlay.color = def.Mask;
+                this.FogOfWarRenderer.sprite = def.Sprite;
+                this.FogOfWarRenderer.color = def.Mask;
             }
             else if (_fogOfWar)
             {
-                this.Overlay.sprite = null;
-                this.Overlay.color = new Color().RGB32(0xff, 0xff, 0xff);
+                this.FogOfWarRenderer.sprite = null;
+                this.FogOfWarRenderer.color = new Color().RGB32(0xff, 0xff, 0xff);
             }
             _fogOfWar = value;
-        }
-    }
-    
-    private bool isHighlighted = false;
-
-    void OnMouseEnter()
-    {
-        if (Overlay.sprite == null)
-        {
-            isHighlighted = true;
-            OverlayDefinition def = WorldMap.Instance.Overlays[(int)OverlayDefinition.Type.Hover];
-            this.Overlay.sprite = def.Sprite;
-            this.Overlay.color = def.Mask;
-        }
-    }
-
-    void OnMouseExit()
-    {
-        if (isHighlighted)
-        {
-            isHighlighted = false;
-            this.Overlay.sprite = null;
-        }
-    }
-
-    void OnMouseOver()
-    {
-        if (isHighlighted && Input.GetMouseButton(0))
-        {
-            if (!Visited)
-            {
-                Visited = true;
-            }
         }
     }
 }

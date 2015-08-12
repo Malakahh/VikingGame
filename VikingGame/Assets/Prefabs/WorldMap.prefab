@@ -24,7 +24,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 108674}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.26170969, y: 1.30645084, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -66,10 +66,6 @@ MonoBehaviour:
     Text: FogOfWar
     Sprite: {fileID: 21300000, guid: f0d501ff7e6d4964089aa4091c81b6c6, type: 3}
     Mask: {r: .215686277, g: .215686277, b: .215686277, a: .882352948}
-  - OverlayType: 1
-    Text: Hover
-    Sprite: {fileID: 21300000, guid: ec5957e74c540ed44bf103238d6b233b, type: 3}
-    Mask: {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &11460936
 MonoBehaviour:
   m_ObjectHideFlags: 1

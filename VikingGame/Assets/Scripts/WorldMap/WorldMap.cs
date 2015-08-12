@@ -13,8 +13,7 @@ public class WorldMap : MonoBehaviour {
         new BuildingDefinition(BuildingDefinition.Type.Tavern)
     };
     public List<OverlayDefinition> Overlays = new List<OverlayDefinition>() {
-        new OverlayDefinition(OverlayDefinition.Type.FogOfWar),
-        new OverlayDefinition(OverlayDefinition.Type.Hover)
+        new OverlayDefinition(OverlayDefinition.Type.FogOfWar)
     };
 
     //Key: TileCoord (as opposed to world coord); value: Tile 
@@ -139,7 +138,7 @@ public class BuildingDefinition
 [System.Serializable]
 public class OverlayDefinition
 {
-    public enum Type { FogOfWar, Hover }
+    public enum Type { FogOfWar }
 
     public Type OverlayType;
     public string Text;

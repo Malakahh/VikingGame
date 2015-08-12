@@ -10,7 +10,7 @@ GameObject:
   - 4: {fileID: 428572}
   - 212: {fileID: 21234858}
   m_Layer: 0
-  m_Name: Overlay
+  m_Name: FogOfWar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27,7 +27,7 @@ GameObject:
   - 212: {fileID: 21258988}
   - 114: {fileID: 11496368}
   - 60: {fileID: 6042754}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: WorldMapHexagonTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -168,7 +168,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Text: {fileID: 10236006}
   Sprite: {fileID: 21258988}
-  Overlay: {fileID: 21234858}
+  FogOfWarRenderer: {fileID: 21234858}
   TileCoordinate: {x: 0, y: 0}
   Neighbours:
   - {fileID: 0}
@@ -256,6 +256,10 @@ Prefab:
       propertyPath: Sprite
       value: 
       objectReference: {fileID: 21258988}
+    - target: {fileID: 0}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 114796}
