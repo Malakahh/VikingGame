@@ -41,25 +41,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Terrain:
-  - Text: Plains
+  - TerrainType: 0
+    Text: Plains
     Sprite: {fileID: 21300000, guid: f2e421876bcdb2b4ea85ce55db2314d9, type: 3}
     Weight: 2
-  - Text: Forest
+    Mask: {r: 0, g: 1, b: 0, a: 1}
+  - TerrainType: 1
+    Text: Forest
     Sprite: {fileID: 21300000, guid: f2e421876bcdb2b4ea85ce55db2314d9, type: 3}
     Weight: 2
-  - Text: Mountains
+    Mask: {r: 0, g: .501960814, b: 0, a: 1}
+  - TerrainType: 2
+    Text: Mountains
     Sprite: {fileID: 21300000, guid: f2e421876bcdb2b4ea85ce55db2314d9, type: 3}
     Weight: 1
+    Mask: {r: .345588207, g: .345588207, b: .345588207, a: 1}
   Buildings:
-  - Text: Tavern
+  - BuildingType: 0
+    Text: Tavern
     Sprite: {fileID: 21300000, guid: f2e421876bcdb2b4ea85ce55db2314d9, type: 3}
+    Mask: {r: .258823544, g: .129411772, b: 0, a: 1}
   Overlays:
-  - Text: FogOfWar
+  - OverlayType: 0
+    Text: FogOfWar
     Sprite: {fileID: 21300000, guid: f0d501ff7e6d4964089aa4091c81b6c6, type: 3}
-    Color: {r: .215686277, g: .215686277, b: .215686277, a: .882352948}
-  - Text: Hover
+    Mask: {r: .215686277, g: .215686277, b: .215686277, a: .882352948}
+  - OverlayType: 1
+    Text: Hover
     Sprite: {fileID: 21300000, guid: ec5957e74c540ed44bf103238d6b233b, type: 3}
-    Color: {r: 1, g: 1, b: 0, a: 1}
+    Mask: {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &11460936
 MonoBehaviour:
   m_ObjectHideFlags: 1
