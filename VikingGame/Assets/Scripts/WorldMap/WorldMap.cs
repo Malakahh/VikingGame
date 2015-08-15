@@ -18,10 +18,7 @@ public class WorldMap : MonoBehaviour {
     
     void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
+        Instance = this;
     }
 
     void Start()

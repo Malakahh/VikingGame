@@ -20,6 +20,7 @@ public static class DataCarrier {
         foreach (WorldMapHexagonTile t in PersistentData.WorldRepresentation.Values)
         {
             t.gameObject.SetActive(false);
+            t.transform.parent = null;
             ObjectPool.Release<WorldMapHexagonTile>(t);
         }
 

@@ -49,7 +49,7 @@ public class WorldMapGen : MonoBehaviour {
             for (int y = -(int)(mapSizeY / 2f - 0.5f); y < mapSizeY / 2f; y++)
             {
                 WorldMapHexagonTile tile = ObjectPool.Acquire<WorldMapHexagonTile>();
-                //tile.transform.parent = WorldMap.Instance.transform;
+                tile.transform.parent = WorldMap.Instance.transform;
 
                 tile.TileCoordinate = new Vector2(x, y);
                 tile.transform.position = TileCoordToWorldCoord(tile.TileCoordinate);
