@@ -15,7 +15,7 @@ public class MouseControls : MonoBehaviour {
     void Update()
     {
         MouseOverHighlight();
-        Visit();
+        SelectTile();
     }
 
     void MouseOverHighlight()
@@ -31,14 +31,14 @@ public class MouseControls : MonoBehaviour {
         }
     }
 
-    void Visit()
+    void SelectTile()
     {
         if (Input.GetMouseButton(0) && hit.collider != null)
         {
             WorldMapHexagonTile tile = hit.collider.GetComponent<WorldMapHexagonTile>();
             if (tile != null && !tile.FogOfWar && !tile.Visited)
             {
-                tile.Visited = true;
+                DataCarrier.LoadGameplayScene(tile, null);
             }
         }
     }

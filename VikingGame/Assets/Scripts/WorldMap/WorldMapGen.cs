@@ -20,65 +20,89 @@ public class WorldMapGen : MonoBehaviour {
 
     public void GenerateMap()
     {
-        GenerateWorldModelRepresentation();
-        MakeTerrain();
-        MakeBuildings();
+        if (DataCarrier.PersistentData.WorldRepresentation.Count == 0)
+        {
+            GenerateHexagonTileGrid();
+            DiscoverAllNeighbourTiles();
+            MakeTerrain();
+            MakeBuildings();
+        }
+        else
+        {
+            RestoreHexagonTileGrid();
+        }
     }
 
-    void GenerateWorldModelRepresentation()
+    void RestoreHexagonTileGrid()
     {
-        GenerateHexagonTile(new Vector2(0, 0));
+        foreach (WorldMapHexagonTile t in DataCarrier.PersistentData.WorldRepresentation.Values)
+        {
+            t.transform.position = TileCoordToWorldCoord(t.TileCoordinate);
+            DiscoverNeighbourTiles(t);
+        }
     }
 
-    WorldMapHexagonTile GenerateHexagonTile(Vector2 TileCoord)
+    void GenerateHexagonTileGrid()
     {
-        if (WorldMap.Instance.WorldRepresentation.ContainsKey(TileCoord))
+        for (int x = -(int)(mapSizeX / 2f - 0.5f); x < mapSizeX / 2f; x++)
         {
-            return WorldMap.Instance.WorldRepresentation[TileCoord];
-        }
-        if (TileCoord.x < -(int)(mapSizeX / 2f - 0.5f) || TileCoord.x > mapSizeX / 2f)
-        {
-            return null;
-        }
-        if (TileCoord.y < -(int)(mapSizeY / 2f - 0.5f) || TileCoord.y > mapSizeY / 2f)
-        {
-            return null;
-        }
+            for (int y = -(int)(mapSizeY / 2f - 0.5f); y < mapSizeY / 2f; y++)
+            {
+                WorldMapHexagonTile tile = ObjectPool.Acquire<WorldMapHexagonTile>();
+                //tile.transform.parent = WorldMap.Instance.transform;
 
-        WorldMapHexagonTile tile = ObjectPool.Acquire<WorldMapHexagonTile>();
-        tile.transform.parent = WorldMap.Instance.transform;
-        tile.TileCoordinate = TileCoord;
-        tile.transform.position = new Vector3(
-            (TileCoord.y % 2 == 0) ? TileCoord.x * magicXOffset : TileCoord.x * magicXOffset + magicXOffset * 0.5f,
-            TileCoord.y * magixYOffset,
-            0);
-        WorldMap.Instance.WorldRepresentation.Add(tile.TileCoordinate, tile);
-        tile.gameObject.SetActive(true);
+                tile.TileCoordinate = new Vector2(x, y);
+                tile.transform.position = TileCoordToWorldCoord(tile.TileCoordinate);
+                DataCarrier.PersistentData.WorldRepresentation.Add(tile.TileCoordinate, tile);
+                tile.gameObject.SetActive(true);
+            }
+        }
+    }
 
+    //Todo: Refactor this approach
+    public Vector3 TileCoordToWorldCoord(Vector2 tileCoord)
+    {
+        return new Vector3(
+            (tileCoord.y % 2 == 0) ? tileCoord.x * magicXOffset : tileCoord.x * magicXOffset + magicXOffset * 0.5f,
+            tileCoord.y * magixYOffset,
+            -0.5f);
+    }
+
+    void DiscoverAllNeighbourTiles()
+    {
+        foreach (WorldMapHexagonTile tile in DataCarrier.PersistentData.WorldRepresentation.Values)
+        {
+            DiscoverNeighbourTiles(tile);
+        }
+    }
+
+    //Todo: Refactor this approach
+    void DiscoverNeighbourTiles(WorldMapHexagonTile tile)
+    {
         for (int i = 0; i < tile.Neighbours.Length; i++)
         {
             Vector2 neighbourCoord = new Vector2();
-            if (TileCoord.y % 2 == 0)
+            if (tile.TileCoordinate.y % 2 == 0)
             {
                 switch (i)
                 {
                     case 0:
-                        neighbourCoord = new Vector2(TileCoord.x, TileCoord.y + 1);
+                        neighbourCoord = new Vector2(tile.TileCoordinate.x, tile.TileCoordinate.y + 1);
                         break;
                     case 1:
-                        neighbourCoord = new Vector2(TileCoord.x + 1, TileCoord.y);
+                        neighbourCoord = new Vector2(tile.TileCoordinate.x + 1, tile.TileCoordinate.y);
                         break;
                     case 2:
-                        neighbourCoord = new Vector2(TileCoord.x, TileCoord.y - 1);
+                        neighbourCoord = new Vector2(tile.TileCoordinate.x, tile.TileCoordinate.y - 1);
                         break;
                     case 3:
-                        neighbourCoord = new Vector2(TileCoord.x - 1, TileCoord.y - 1);
+                        neighbourCoord = new Vector2(tile.TileCoordinate.x - 1, tile.TileCoordinate.y - 1);
                         break;
                     case 4:
-                        neighbourCoord = new Vector2(TileCoord.x - 1, TileCoord.y);
+                        neighbourCoord = new Vector2(tile.TileCoordinate.x - 1, tile.TileCoordinate.y);
                         break;
                     case 5:
-                        neighbourCoord = new Vector2(TileCoord.x - 1, TileCoord.y + 1);
+                        neighbourCoord = new Vector2(tile.TileCoordinate.x - 1, tile.TileCoordinate.y + 1);
                         break;
                 }
             }
@@ -87,30 +111,31 @@ public class WorldMapGen : MonoBehaviour {
                 switch (i)
                 {
                     case 0:
-                        neighbourCoord = new Vector2(TileCoord.x + 1, TileCoord.y + 1);
+                        neighbourCoord = new Vector2(tile.TileCoordinate.x + 1, tile.TileCoordinate.y + 1);
                         break;
                     case 1:
-                        neighbourCoord = new Vector2(TileCoord.x + 1, TileCoord.y);
+                        neighbourCoord = new Vector2(tile.TileCoordinate.x + 1, tile.TileCoordinate.y);
                         break;
                     case 2:
-                        neighbourCoord = new Vector2(TileCoord.x + 1, TileCoord.y - 1);
+                        neighbourCoord = new Vector2(tile.TileCoordinate.x + 1, tile.TileCoordinate.y - 1);
                         break;
                     case 3:
-                        neighbourCoord = new Vector2(TileCoord.x, TileCoord.y - 1);
+                        neighbourCoord = new Vector2(tile.TileCoordinate.x, tile.TileCoordinate.y - 1);
                         break;
                     case 4:
-                        neighbourCoord = new Vector2(TileCoord.x - 1, TileCoord.y);
+                        neighbourCoord = new Vector2(tile.TileCoordinate.x - 1, tile.TileCoordinate.y);
                         break;
                     case 5:
-                        neighbourCoord = new Vector2(TileCoord.x, TileCoord.y + 1);
+                        neighbourCoord = new Vector2(tile.TileCoordinate.x, tile.TileCoordinate.y + 1);
                         break;
                 }
             }
 
-            tile.Neighbours[i] = GenerateHexagonTile(neighbourCoord);
+            if (DataCarrier.PersistentData.WorldRepresentation.ContainsKey(neighbourCoord))
+            {
+                tile.Neighbours[i] = DataCarrier.PersistentData.WorldRepresentation[neighbourCoord];
+            }
         }
-
-        return tile;
     }
 
     void MakeTerrain()
@@ -119,7 +144,7 @@ public class WorldMapGen : MonoBehaviour {
         WorldMap.Instance.Terrain.ForEach(x => list.Add(x.Weight));
 
         WeightedRandomizer randomizer = new WeightedRandomizer(list);
-        foreach (WorldMapHexagonTile tile in WorldMap.Instance.WorldRepresentation.Values)
+        foreach (WorldMapHexagonTile tile in DataCarrier.PersistentData.WorldRepresentation.Values)
         {
             int ran = randomizer.GetRandomIndex();
             TerrainDefinition def = WorldMap.Instance.Terrain[ran];
@@ -130,9 +155,9 @@ public class WorldMapGen : MonoBehaviour {
     void MakeBuildings()
     {
         //Place tavern in center
-        if (WorldMap.Instance.WorldRepresentation.ContainsKey(new Vector2(0,0)))
+        if (DataCarrier.PersistentData.WorldRepresentation.ContainsKey(new Vector2(0,0)))
         {
-            WorldMapHexagonTile tile = WorldMap.Instance.WorldRepresentation[new Vector2(0, 0)];
+            WorldMapHexagonTile tile = DataCarrier.PersistentData.WorldRepresentation[new Vector2(0, 0)];
             tile.Building = WorldMap.Instance.Buildings[(int)BuildingDefinition.Type.Tavern];
         }
     }

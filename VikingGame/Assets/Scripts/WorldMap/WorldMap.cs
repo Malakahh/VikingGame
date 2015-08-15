@@ -15,9 +15,6 @@ public class WorldMap : MonoBehaviour {
     public List<OverlayDefinition> Overlays = new List<OverlayDefinition>() {
         new OverlayDefinition(OverlayDefinition.Type.FogOfWar)
     };
-
-    //Key: TileCoord (as opposed to world coord); value: Tile 
-    public Dictionary<Vector2, WorldMapHexagonTile> WorldRepresentation = new Dictionary<Vector2, WorldMapHexagonTile>();
     
     void Awake()
     {
@@ -35,14 +32,14 @@ public class WorldMap : MonoBehaviour {
 
     void InitializeFogOfWar()
     {
-        foreach (WorldMapHexagonTile tile in this.WorldRepresentation.Values)
+        foreach (WorldMapHexagonTile tile in DataCarrier.PersistentData.WorldRepresentation.Values)
         {
             tile.FogOfWar = true;
         }
 
-        if (WorldRepresentation.ContainsKey(new Vector2(0, 0)))
+        if (DataCarrier.PersistentData.WorldRepresentation.ContainsKey(new Vector2(0, 0)))
         {
-            WorldRepresentation[new Vector2(0, 0)].Visited = true;
+            DataCarrier.PersistentData.WorldRepresentation[new Vector2(0, 0)].Visited = true;
         }
     }
 
@@ -50,7 +47,7 @@ public class WorldMap : MonoBehaviour {
     {
         Debug.Log("MapMode: Default");
 
-        foreach (WorldMapHexagonTile tile in WorldRepresentation.Values)
+        foreach (WorldMapHexagonTile tile in DataCarrier.PersistentData.WorldRepresentation.Values)
         {
             tile.Terrain = tile.Terrain;
             tile.Building = tile.Building;
@@ -61,7 +58,7 @@ public class WorldMap : MonoBehaviour {
     {
         Debug.Log("MapMode: Tile Coordinates");
 
-        foreach (WorldMapHexagonTile tile in WorldRepresentation.Values)
+        foreach (WorldMapHexagonTile tile in DataCarrier.PersistentData.WorldRepresentation.Values)
         {
             tile.Text.text = tile.TileCoordinate.ToString();
             tile.Sprite.color = tile.Terrain.Mask;
@@ -72,7 +69,7 @@ public class WorldMap : MonoBehaviour {
     {
         Debug.Log("MapMode: Visited Tiles");
 
-        foreach (WorldMapHexagonTile tile in WorldRepresentation.Values)
+        foreach (WorldMapHexagonTile tile in DataCarrier.PersistentData.WorldRepresentation.Values)
         {
             if (tile.Visited)
             {
@@ -136,14 +133,14 @@ public class BuildingDefinition
 }
 
 [System.Serializable]
-public class OverlayDefinition
+public struct OverlayDefinition
 {
     public enum Type { FogOfWar }
 
     public Type OverlayType;
     public string Text;
     public Sprite Sprite;
-    public Color Mask = new Color().RGB32(0xff, 0xff, 0xff);
+    public Color Mask;
 
     public OverlayDefinition(Type OverlayType, Sprite sprite)
     {
@@ -151,6 +148,7 @@ public class OverlayDefinition
         this.Sprite = sprite;
 
         this.Text = this.OverlayType.GetName();
+        this.Mask = new Color().RGB32(0xff, 0xff, 0xff);
     }
 
     public OverlayDefinition(Type OverlayType)

@@ -20,14 +20,13 @@ public class WorldMapHexagonTile : MonoBehaviour
 
             if (_terrain != null)
             {
-                this.Sprite.color = _terrain.Mask;
-
-                if (_terrain.Sprite != null)
+                if (_terrain.Sprite != null && this.Sprite != null)
                 {
                     this.Sprite.sprite = _terrain.Sprite;
+                    this.Sprite.color = _terrain.Mask;
                 }
 
-                if (_terrain.Text != null)
+                if (_terrain.Text != null && this.Text != null)
                 {
                     this.Text.text = _terrain.Text;
                 }
@@ -88,18 +87,31 @@ public class WorldMapHexagonTile : MonoBehaviour
         get { return _fogOfWar; }
         set 
         { 
-            if (value)
+            if (this.FogOfWarRenderer != null)
             {
-                OverlayDefinition def = WorldMap.Instance.Overlays[(int)OverlayDefinition.Type.FogOfWar];
-                this.FogOfWarRenderer.sprite = def.Sprite;
-                this.FogOfWarRenderer.color = def.Mask;
-            }
-            else if (_fogOfWar)
-            {
-                this.FogOfWarRenderer.sprite = null;
-                this.FogOfWarRenderer.color = new Color().RGB32(0xff, 0xff, 0xff);
+                if (value)
+                {
+                    OverlayDefinition def = WorldMap.Instance.Overlays[(int)OverlayDefinition.Type.FogOfWar];
+                    this.FogOfWarRenderer.sprite = def.Sprite;
+                    this.FogOfWarRenderer.color = def.Mask;
+                }
+                else if (_fogOfWar)
+                {
+                    this.FogOfWarRenderer.sprite = null;
+                    this.FogOfWarRenderer.color = new Color().RGB32(0xff, 0xff, 0xff);
+                }
             }
             _fogOfWar = value;
         }
+    }
+
+    public void CopyValues(WorldMapHexagonTile tile)
+    {
+        this.TileCoordinate = tile.TileCoordinate;
+
+        this.Terrain = tile.Terrain;
+        this.Building = tile.Building;
+        this.Visited = tile.Visited;
+        this.FogOfWar = tile.FogOfWar;
     }
 }
