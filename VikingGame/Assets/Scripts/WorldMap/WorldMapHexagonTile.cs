@@ -105,6 +105,13 @@ public class WorldMapHexagonTile : MonoBehaviour
         }
     }
 
+    private float _difficulty;
+    public float Difficulty
+    {
+        get { return _difficulty; }
+        set { _difficulty = value; }
+    }
+
     public void CopyValues(WorldMapHexagonTile tile)
     {
         this.TileCoordinate = tile.TileCoordinate;
@@ -113,5 +120,6 @@ public class WorldMapHexagonTile : MonoBehaviour
         this.Building = tile.Building;
         this.Visited = tile.Visited;
         this.FogOfWar = tile.FogOfWar;
+        this.Difficulty = tile.Difficulty;
     }
 }

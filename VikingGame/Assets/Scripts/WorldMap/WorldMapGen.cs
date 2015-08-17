@@ -26,11 +26,25 @@ public class WorldMapGen : MonoBehaviour {
             DiscoverAllNeighbourTiles();
             MakeTerrain();
             MakeBuildings();
+            GenerateAllDifficulty();
         }
         else
         {
             RestoreHexagonTileGrid();
         }
+    }
+
+    void GenerateAllDifficulty()
+    {
+        foreach (WorldMapHexagonTile t in DataCarrier.PersistentData.WorldRepresentation.Values)
+        {
+            GenerateDifficulty(t);
+        }
+    }
+
+    void GenerateDifficulty(WorldMapHexagonTile tile)
+    {
+        tile.Difficulty = Vector2.Distance(tile.TileCoordinate, Vector2.zero);
     }
 
     void RestoreHexagonTileGrid()
@@ -39,6 +53,7 @@ public class WorldMapGen : MonoBehaviour {
         {
             t.transform.position = TileCoordToWorldCoord(t.TileCoordinate);
             DiscoverNeighbourTiles(t);
+            GenerateDifficulty(t);
         }
     }
 

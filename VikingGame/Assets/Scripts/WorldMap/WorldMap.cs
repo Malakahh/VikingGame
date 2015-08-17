@@ -1,8 +1,29 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
 public class WorldMap : MonoBehaviour {
     public static WorldMap Instance;
+
+    public delegate void SelectedTileDelegate(WorldMapHexagonTile selectedTile);
+    public event SelectedTileDelegate OnSelectedTileChanged;
+
+    private WorldMapHexagonTile _selectedTile;
+    public WorldMapHexagonTile SelectedTile
+    {
+        get { return _selectedTile; }
+        set 
+        {
+            if (value != _selectedTile)
+            {
+                _selectedTile = value;
+                if (OnSelectedTileChanged != null)
+                {
+                    OnSelectedTileChanged(_selectedTile);
+                }
+            }
+        }
+    }
 
     public List<TerrainDefinition> Terrain = new List<TerrainDefinition>() {
         new TerrainDefinition(TerrainDefinition.Type.Plains),
@@ -78,6 +99,22 @@ public class WorldMap : MonoBehaviour {
                 tile.Text.text = "Not\nVisisted";
                 tile.Sprite.color = new Color().RGB32(0x00, 0xFF, 0x00);
             }
+        }
+    }
+
+    public void MapModeDifficulty()
+    {
+        Debug.Log("MapMode: Difficulty");
+        
+        float max = DataCarrier.PersistentData.WorldRepresentation.Values.ToList().Max(t => t.Difficulty);
+        
+        foreach (WorldMapHexagonTile tile in DataCarrier.PersistentData.WorldRepresentation.Values)
+        {
+            tile.Text.text = tile.Difficulty.ToString();
+            tile.Sprite.color = new Color(
+                1f,
+                1f - tile.Difficulty / max,
+                1f - tile.Difficulty / max);
         }
     }
 }
