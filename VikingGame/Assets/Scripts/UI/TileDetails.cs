@@ -18,6 +18,6 @@ public class TileDetails : MonoBehaviour {
 
     public void StartRaidBtnClick()
     {
-        DataCarrier.LoadRaidScene(WorldMap.Instance.SelectedTile, null);
+        DataCarrier.LoadRaidMapScene(WorldMap.Instance.SelectedTile, null);
     }
 }

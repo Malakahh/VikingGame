@@ -10,8 +10,8 @@ public class WorldMapHexagonTile : MonoBehaviour
     public Vector2 TileCoordinate;
     public WorldMapHexagonTile[] Neighbours = new WorldMapHexagonTile[6];
 
-    private TerrainDefinition _terrain;
-    public TerrainDefinition Terrain
+    private WorldMapTerrainDefinition _terrain;
+    public WorldMapTerrainDefinition Terrain
     {
         get { return _terrain; }
         set 
@@ -91,7 +91,7 @@ public class WorldMapHexagonTile : MonoBehaviour
             {
                 if (value)
                 {
-                    OverlayDefinition def = WorldMap.Instance.Overlays[(int)OverlayDefinition.Type.FogOfWar];
+                    OverlayDefinition def = WorldMapGen.Instance.Overlays[(int)OverlayDefinition.Type.FogOfWar];
                     this.FogOfWarRenderer.sprite = def.Sprite;
                     this.FogOfWarRenderer.color = def.Mask;
                 }

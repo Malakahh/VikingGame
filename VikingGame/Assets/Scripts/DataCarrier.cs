@@ -8,13 +8,13 @@ public static class DataCarrier {
         public static Dictionary<Vector2, WorldMapHexagonTile> WorldRepresentation = new Dictionary<Vector2, WorldMapHexagonTile>();
     }
 
-    public static WorldMapHexagonTile Tile;
-    public static Ship Ship;
+    public static WorldMapHexagonTile SelectedTile;
+    public static Ship SelectedShip;
 
-    public static void LoadGameplayScene(WorldMapHexagonTile tile, Ship ship)
+    public static void LoadRaidMapScene(WorldMapHexagonTile tile, Ship ship)
     {
-        Tile = tile;
-        Ship = ship;
+        SelectedTile = tile;
+        SelectedShip = ship;
 
         //return tiles
         foreach (WorldMapHexagonTile t in PersistentData.WorldRepresentation.Values)
@@ -24,7 +24,7 @@ public static class DataCarrier {
             ObjectPool.Release<WorldMapHexagonTile>(t);
         }
 
-        Application.LoadLevel("Gameplay");
+        Application.LoadLevel("RaidMap");
     }
 
     public static void LoadWorldMapScene()
