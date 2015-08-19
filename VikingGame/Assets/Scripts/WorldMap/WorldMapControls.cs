@@ -30,9 +30,9 @@ public class WorldMapControls : MonoBehaviour {
         if (Input.GetMouseButton(0) && hit.collider != null)
         {
             WorldMapHexagonTile tile = hit.collider.GetComponent<WorldMapHexagonTile>();
-            if (tile != null && !tile.FogOfWar && !tile.Visited)
+            if (tile != null && !tile.TileData.FogOfWar && !tile.TileData.Visited)
             {
-                WorldMap.Instance.SelectedTile = tile;
+                WorldMap.Instance.SelectedTileData = tile.TileData;
             }
         }
     }

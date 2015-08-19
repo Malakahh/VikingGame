@@ -7,8 +7,34 @@ public class WorldMapHexagonTile : MonoBehaviour
     public SpriteRenderer Sprite;
     public SpriteRenderer FogOfWarRenderer;
 
-    public Vector2 TileCoordinate;
+    private WorldMapHexagonTileData _tileData = new WorldMapHexagonTileData();
+    public WorldMapHexagonTileData TileData
+    {
+        get { return _tileData; }
+        set 
+        { 
+            _tileData = value; 
+            _tileData.Tile = this;
+            _tileData.Terrain = _tileData.Terrain;
+            _tileData.Building = _tileData.Building;
+            _tileData.Visited = _tileData.Visited;
+            _tileData.FogOfWar = _tileData.FogOfWar;
+        }
+    }
+
     public WorldMapHexagonTile[] Neighbours = new WorldMapHexagonTile[6];
+
+    void Awake()
+    {
+        TileData.Tile = this;
+    }
+}
+
+public class WorldMapHexagonTileData
+{
+    public WorldMapHexagonTile Tile;
+
+    public Vector2 TileCoordinate;
 
     private WorldMapTerrainDefinition _terrain;
     public WorldMapTerrainDefinition Terrain
@@ -18,17 +44,17 @@ public class WorldMapHexagonTile : MonoBehaviour
         { 
             _terrain = value;
 
-            if (_terrain != null)
+            if (_terrain != null && Tile != null)
             {
-                if (_terrain.Sprite != null && this.Sprite != null)
+                if (_terrain.Sprite != null && Tile.Sprite != null)
                 {
-                    this.Sprite.sprite = _terrain.Sprite;
-                    this.Sprite.color = _terrain.Mask;
+                    Tile.Sprite.sprite = _terrain.Sprite;
+                    Tile.Sprite.color = _terrain.Mask;
                 }
 
-                if (_terrain.Text != null && this.Text != null)
+                if (_terrain.Text != null && Tile.Text != null)
                 {
-                    this.Text.text = _terrain.Text;
+                    Tile.Text.text = _terrain.Text;
                 }
             }
         }
@@ -44,16 +70,16 @@ public class WorldMapHexagonTile : MonoBehaviour
 
             if (_building != null)
             {
-                this.Sprite.color = _building.Mask;
+                Tile.Sprite.color = _building.Mask;
                 
                 if (_building.Sprite != null)
                 {
-                    this.Sprite.sprite = _building.Sprite;
+                    Tile.Sprite.sprite = _building.Sprite;
                 }
 
                 if (_building.Text != null)
                 {
-                    this.Text.text = _building.Text;
+                    Tile.Text.text = _building.Text;
                 }
             }
         }
@@ -70,11 +96,11 @@ public class WorldMapHexagonTile : MonoBehaviour
             {
                 this.FogOfWar = false;
 
-                for (int i = 0; i < this.Neighbours.Length; i++)
+                for (int i = 0; i < Tile.Neighbours.Length; i++)
                 {
-                    if (this.Neighbours[i] != null)
+                    if (Tile.Neighbours[i] != null)
                     {
-                        this.Neighbours[i].FogOfWar = false;
+                        Tile.Neighbours[i].TileData.FogOfWar = false;
                     }
                 }
             }
@@ -87,18 +113,18 @@ public class WorldMapHexagonTile : MonoBehaviour
         get { return _fogOfWar; }
         set 
         { 
-            if (this.FogOfWarRenderer != null)
+            if (Tile.FogOfWarRenderer != null)
             {
                 if (value)
                 {
                     OverlayDefinition def = WorldMapGen.Instance.Overlays[(int)OverlayDefinition.Type.FogOfWar];
-                    this.FogOfWarRenderer.sprite = def.Sprite;
-                    this.FogOfWarRenderer.color = def.Mask;
+                    Tile.FogOfWarRenderer.sprite = def.Sprite;
+                    Tile.FogOfWarRenderer.color = def.Mask;
                 }
                 else if (_fogOfWar)
                 {
-                    this.FogOfWarRenderer.sprite = null;
-                    this.FogOfWarRenderer.color = new Color().RGB32(0xff, 0xff, 0xff);
+                    Tile.FogOfWarRenderer.sprite = null;
+                    Tile.FogOfWarRenderer.color = new Color().RGB32(0xff, 0xff, 0xff);
                 }
             }
             _fogOfWar = value;
@@ -110,16 +136,5 @@ public class WorldMapHexagonTile : MonoBehaviour
     {
         get { return _difficulty; }
         set { _difficulty = value; }
-    }
-
-    public void CopyValues(WorldMapHexagonTile tile)
-    {
-        this.TileCoordinate = tile.TileCoordinate;
-
-        this.Terrain = tile.Terrain;
-        this.Building = tile.Building;
-        this.Visited = tile.Visited;
-        this.FogOfWar = tile.FogOfWar;
-        this.Difficulty = tile.Difficulty;
     }
 }

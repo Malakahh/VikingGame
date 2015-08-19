@@ -2,14 +2,5 @@
 using System.Collections;
 
 public class Ship : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    public SpriteRenderer Sprite;
 }

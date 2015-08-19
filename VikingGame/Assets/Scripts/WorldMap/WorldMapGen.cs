@@ -35,40 +35,60 @@ public class WorldMapGen : MonoBehaviour {
 
     public void GenerateMap()
     {
-        if (DataCarrier.PersistentData.WorldRepresentation.Count == 0)
+        if (DataCarrier.SelectedTileData == null)
         {
             GenerateHexagonTileGrid();
             DiscoverAllNeighbourTiles();
             MakeTerrain();
             MakeBuildings();
             GenerateAllDifficulty();
+            InitializeFogOfWar();
         }
         else
         {
             RestoreHexagonTileGrid();
+            DiscoverAllNeighbourTiles();
+        }
+    }
+
+    void InitializeFogOfWar()
+    {
+        foreach (WorldMapHexagonTileData tileData in DataCarrier.PersistentData.WorldRepresentation.Values)
+        {
+            tileData.FogOfWar = true;
+        }
+
+        if (DataCarrier.PersistentData.WorldRepresentation.ContainsKey(new Vector2(0, 0)))
+        {
+            DataCarrier.PersistentData.WorldRepresentation[new Vector2(0, 0)].Visited = true;
         }
     }
 
     void GenerateAllDifficulty()
     {
-        foreach (WorldMapHexagonTile t in DataCarrier.PersistentData.WorldRepresentation.Values)
+        foreach (WorldMapHexagonTileData td in DataCarrier.PersistentData.WorldRepresentation.Values)
         {
-            GenerateDifficulty(t);
+            GenerateDifficulty(td);
         }
     }
 
-    void GenerateDifficulty(WorldMapHexagonTile tile)
+    void GenerateDifficulty(WorldMapHexagonTileData tileData)
     {
-        tile.Difficulty = Vector2.Distance(tile.TileCoordinate, Vector2.zero);
+        tileData.Difficulty = Vector2.Distance(tileData.TileCoordinate, Vector2.zero);
     }
 
     void RestoreHexagonTileGrid()
     {
-        foreach (WorldMapHexagonTile t in DataCarrier.PersistentData.WorldRepresentation.Values)
+        Dictionary<Vector2, WorldMapHexagonTileData> temp = new Dictionary<Vector2, WorldMapHexagonTileData>(DataCarrier.PersistentData.WorldRepresentation);
+        DataCarrier.PersistentData.WorldRepresentation.Clear();
+
+        foreach (Vector2 coord in temp.Keys)
         {
-            t.transform.position = TileCoordToWorldCoord(t.TileCoordinate);
-            DiscoverNeighbourTiles(t);
-            GenerateDifficulty(t);
+            WorldMapHexagonTile tile = ObjectPool.Instance.Acquire<WorldMapHexagonTile>();
+            tile.TileData = temp[coord];
+            DataCarrier.PersistentData.WorldRepresentation.Add(coord, tile.TileData);
+            tile.transform.position = TileCoordToWorldCoord(tile.TileData.TileCoordinate);
+            tile.gameObject.SetActive(true);
         }
     }
 
@@ -78,12 +98,12 @@ public class WorldMapGen : MonoBehaviour {
         {
             for (int y = -(int)(mapSizeY / 2f - 0.5f); y < mapSizeY / 2f; y++)
             {
-                WorldMapHexagonTile tile = ObjectPool.Acquire<WorldMapHexagonTile>();
+                WorldMapHexagonTile tile = ObjectPool.Instance.Acquire<WorldMapHexagonTile>();
                 tile.transform.parent = WorldMap.Instance.transform;
 
-                tile.TileCoordinate = new Vector2(x, y);
-                tile.transform.position = TileCoordToWorldCoord(tile.TileCoordinate);
-                DataCarrier.PersistentData.WorldRepresentation.Add(tile.TileCoordinate, tile);
+                tile.TileData.TileCoordinate = new Vector2(x, y);
+                tile.transform.position = TileCoordToWorldCoord(tile.TileData.TileCoordinate);
+                DataCarrier.PersistentData.WorldRepresentation.Add(tile.TileData.TileCoordinate, tile.TileData);
                 tile.gameObject.SetActive(true);
             }
         }
@@ -100,39 +120,39 @@ public class WorldMapGen : MonoBehaviour {
 
     void DiscoverAllNeighbourTiles()
     {
-        foreach (WorldMapHexagonTile tile in DataCarrier.PersistentData.WorldRepresentation.Values)
+        foreach (WorldMapHexagonTileData tileData in DataCarrier.PersistentData.WorldRepresentation.Values)
         {
-            DiscoverNeighbourTiles(tile);
+            DiscoverNeighbourTiles(tileData);
         }
     }
 
     //Todo: Refactor this approach
-    void DiscoverNeighbourTiles(WorldMapHexagonTile tile)
+    void DiscoverNeighbourTiles(WorldMapHexagonTileData tileData)
     {
-        for (int i = 0; i < tile.Neighbours.Length; i++)
+        for (int i = 0; i < tileData.Tile.Neighbours.Length; i++)
         {
             Vector2 neighbourCoord = new Vector2();
-            if (tile.TileCoordinate.y % 2 == 0)
+            if (tileData.TileCoordinate.y % 2 == 0)
             {
                 switch (i)
                 {
                     case 0:
-                        neighbourCoord = new Vector2(tile.TileCoordinate.x, tile.TileCoordinate.y + 1);
+                        neighbourCoord = new Vector2(tileData.TileCoordinate.x, tileData.TileCoordinate.y + 1);
                         break;
                     case 1:
-                        neighbourCoord = new Vector2(tile.TileCoordinate.x + 1, tile.TileCoordinate.y);
+                        neighbourCoord = new Vector2(tileData.TileCoordinate.x + 1, tileData.TileCoordinate.y);
                         break;
                     case 2:
-                        neighbourCoord = new Vector2(tile.TileCoordinate.x, tile.TileCoordinate.y - 1);
+                        neighbourCoord = new Vector2(tileData.TileCoordinate.x, tileData.TileCoordinate.y - 1);
                         break;
                     case 3:
-                        neighbourCoord = new Vector2(tile.TileCoordinate.x - 1, tile.TileCoordinate.y - 1);
+                        neighbourCoord = new Vector2(tileData.TileCoordinate.x - 1, tileData.TileCoordinate.y - 1);
                         break;
                     case 4:
-                        neighbourCoord = new Vector2(tile.TileCoordinate.x - 1, tile.TileCoordinate.y);
+                        neighbourCoord = new Vector2(tileData.TileCoordinate.x - 1, tileData.TileCoordinate.y);
                         break;
                     case 5:
-                        neighbourCoord = new Vector2(tile.TileCoordinate.x - 1, tile.TileCoordinate.y + 1);
+                        neighbourCoord = new Vector2(tileData.TileCoordinate.x - 1, tileData.TileCoordinate.y + 1);
                         break;
                 }
             }
@@ -141,29 +161,29 @@ public class WorldMapGen : MonoBehaviour {
                 switch (i)
                 {
                     case 0:
-                        neighbourCoord = new Vector2(tile.TileCoordinate.x + 1, tile.TileCoordinate.y + 1);
+                        neighbourCoord = new Vector2(tileData.TileCoordinate.x + 1, tileData.TileCoordinate.y + 1);
                         break;
                     case 1:
-                        neighbourCoord = new Vector2(tile.TileCoordinate.x + 1, tile.TileCoordinate.y);
+                        neighbourCoord = new Vector2(tileData.TileCoordinate.x + 1, tileData.TileCoordinate.y);
                         break;
                     case 2:
-                        neighbourCoord = new Vector2(tile.TileCoordinate.x + 1, tile.TileCoordinate.y - 1);
+                        neighbourCoord = new Vector2(tileData.TileCoordinate.x + 1, tileData.TileCoordinate.y - 1);
                         break;
                     case 3:
-                        neighbourCoord = new Vector2(tile.TileCoordinate.x, tile.TileCoordinate.y - 1);
+                        neighbourCoord = new Vector2(tileData.TileCoordinate.x, tileData.TileCoordinate.y - 1);
                         break;
                     case 4:
-                        neighbourCoord = new Vector2(tile.TileCoordinate.x - 1, tile.TileCoordinate.y);
+                        neighbourCoord = new Vector2(tileData.TileCoordinate.x - 1, tileData.TileCoordinate.y);
                         break;
                     case 5:
-                        neighbourCoord = new Vector2(tile.TileCoordinate.x, tile.TileCoordinate.y + 1);
+                        neighbourCoord = new Vector2(tileData.TileCoordinate.x, tileData.TileCoordinate.y + 1);
                         break;
                 }
             }
 
             if (DataCarrier.PersistentData.WorldRepresentation.ContainsKey(neighbourCoord))
             {
-                tile.Neighbours[i] = DataCarrier.PersistentData.WorldRepresentation[neighbourCoord];
+                tileData.Tile.Neighbours[i] = DataCarrier.PersistentData.WorldRepresentation[neighbourCoord].Tile;
             }
         }
     }
@@ -174,11 +194,11 @@ public class WorldMapGen : MonoBehaviour {
         Terrain.ForEach(x => list.Add(x.Weight));
 
         WeightedRandomizer randomizer = new WeightedRandomizer(list);
-        foreach (WorldMapHexagonTile tile in DataCarrier.PersistentData.WorldRepresentation.Values)
+        foreach (WorldMapHexagonTileData tileData in DataCarrier.PersistentData.WorldRepresentation.Values)
         {
             int ran = randomizer.GetRandomIndex();
             WorldMapTerrainDefinition def = Terrain[ran];
-            tile.Terrain = def;
+            tileData.Terrain = def;
         }
     }
 
@@ -187,8 +207,8 @@ public class WorldMapGen : MonoBehaviour {
         //Place tavern in center
         if (DataCarrier.PersistentData.WorldRepresentation.ContainsKey(new Vector2(0,0)))
         {
-            WorldMapHexagonTile tile = DataCarrier.PersistentData.WorldRepresentation[new Vector2(0, 0)];
-            tile.Building = Buildings[(int)BuildingDefinition.Type.Tavern];
+            WorldMapHexagonTileData tileData = DataCarrier.PersistentData.WorldRepresentation[new Vector2(0, 0)];
+            tileData.Building = Buildings[(int)BuildingDefinition.Type.Tavern];
         }
     }
 }
