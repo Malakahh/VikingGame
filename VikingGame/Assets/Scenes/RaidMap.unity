@@ -168,7 +168,7 @@ Prefab:
     - target: {fileID: 11414118, guid: d20bc4b255c32814a90b88c345a9ce41, type: 2}
       propertyPath: Terrain.Array.data[1].WallSprite
       value: 
-      objectReference: {fileID: 21300000, guid: 52e0c3f9b5590284dae9fbc156cb595e,
+      objectReference: {fileID: 21300000, guid: 7e317b0770f206b45ab6867705145194,
         type: 3}
     - target: {fileID: 11414118, guid: d20bc4b255c32814a90b88c345a9ce41, type: 2}
       propertyPath: Terrain.Array.data[1].Mask.r
@@ -188,7 +188,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11414118, guid: d20bc4b255c32814a90b88c345a9ce41, type: 2}
       propertyPath: Terrain.Array.data[1].WallMask.g
-      value: .490196079
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11414118, guid: d20bc4b255c32814a90b88c345a9ce41, type: 2}
       propertyPath: Terrain.Array.data[1].WallMask.b
