@@ -1,20 +1,29 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
 public class WorldMap : MonoBehaviour {
     public static WorldMap Instance;
 
-    public List<TerrainDefinition> Terrain = new List<TerrainDefinition>() {
-        new TerrainDefinition(TerrainDefinition.Type.Plains),
-        new TerrainDefinition(TerrainDefinition.Type.Forest),
-        new TerrainDefinition(TerrainDefinition.Type.Mountains)
-    };
-    public List<BuildingDefinition> Buildings = new List<BuildingDefinition>() {
-        new BuildingDefinition(BuildingDefinition.Type.Tavern)
-    };
-    public List<OverlayDefinition> Overlays = new List<OverlayDefinition>() {
-        new OverlayDefinition(OverlayDefinition.Type.FogOfWar)
-    };
+    public delegate void SelectedTileDelegate(WorldMapHexagonTile selectedTile);
+    public event SelectedTileDelegate OnSelectedTileChanged;
+
+    private WorldMapHexagonTile _selectedTile;
+    public WorldMapHexagonTile SelectedTile
+    {
+        get { return _selectedTile; }
+        set 
+        {
+            if (value != _selectedTile)
+            {
+                _selectedTile = value;
+                if (OnSelectedTileChanged != null)
+                {
+                    OnSelectedTileChanged(_selectedTile);
+                }
+            }
+        }
+    }
     
     void Awake()
     {
@@ -80,75 +89,21 @@ public class WorldMap : MonoBehaviour {
             }
         }
     }
-}
 
-[System.Serializable]
-public class TerrainDefinition
-{
-    public enum Type { Plains, Forest, Mountains }
-
-    public Type TerrainType;
-    public string Text;
-    public Sprite Sprite;
-    public int Weight = 1;
-    public Color Mask = new Color().RGB32(0xff, 0xff, 0xff);
-
-    public TerrainDefinition(Type TerrainType, Sprite Sprite)
+    public void MapModeDifficulty()
     {
-        this.TerrainType = TerrainType;
-        this.Sprite = Sprite;
-
-        this.Text = this.TerrainType.GetName();
+        Debug.Log("MapMode: Difficulty");
+        
+        float max = DataCarrier.PersistentData.WorldRepresentation.Values.ToList().Max(t => t.Difficulty);
+        
+        foreach (WorldMapHexagonTile tile in DataCarrier.PersistentData.WorldRepresentation.Values)
+        {
+            tile.Text.text = tile.Difficulty.ToString();
+            tile.Sprite.color = new Color(
+                1f,
+                1f - tile.Difficulty / max,
+                1f - tile.Difficulty / max);
+        }
     }
-
-    public TerrainDefinition(Type TerrainType)
-        : this(TerrainType, null)
-    { }
 }
 
-[System.Serializable]
-public class BuildingDefinition
-{
-    public enum Type { Tavern }
-
-    public Type BuildingType;
-    public string Text;
-    public Sprite Sprite;
-    public Color Mask = new Color().RGB32(0xff, 0xff, 0xff);
-
-    public BuildingDefinition(Type BuildingType, Sprite sprite)
-    {
-        this.BuildingType = BuildingType;
-        this.Sprite = sprite;
-
-        this.Text = this.BuildingType.GetName();
-    }
-
-    public BuildingDefinition(Type BuildingType)
-        : this(BuildingType, null)
-    { }
-}
-
-[System.Serializable]
-public struct OverlayDefinition
-{
-    public enum Type { FogOfWar }
-
-    public Type OverlayType;
-    public string Text;
-    public Sprite Sprite;
-    public Color Mask;
-
-    public OverlayDefinition(Type OverlayType, Sprite sprite)
-    {
-        this.OverlayType = OverlayType;
-        this.Sprite = sprite;
-
-        this.Text = this.OverlayType.GetName();
-        this.Mask = new Color().RGB32(0xff, 0xff, 0xff);
-    }
-
-    public OverlayDefinition(Type OverlayType)
-        : this(OverlayType, null)
-    { }
-}

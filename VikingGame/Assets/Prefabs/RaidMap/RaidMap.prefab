@@ -1,45 +1,63 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &151922
+--- !u!1 &175072
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 4
   m_Component:
-  - 4: {fileID: 439976}
-  - 114: {fileID: 11484722}
+  - 4: {fileID: 486290}
+  - 114: {fileID: 11414118}
   m_Layer: 0
-  m_Name: MouseControls
+  m_Name: RaidMap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &439976
+--- !u!4 &486290
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 151922}
+  m_GameObject: {fileID: 175072}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 398.0383, y: 257.60022, z: -.4375}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!114 &11484722
+--- !u!114 &11414118
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 151922}
+  m_GameObject: {fileID: 175072}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c34b070c394f6c14dbfc67f857a1d8e0, type: 3}
+  m_Script: {fileID: 11500000, guid: 2b3dbab919c37ae42a94661af6104deb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HoverHighlight: {fileID: 0}
+  Terrain:
+  - TerrainType: 0
+    Text: Plains
+    Sprite: {fileID: 0}
+    Mask: {r: 1, g: 1, b: 1, a: 1}
+    WallSprite: {fileID: 0}
+    WallMask: {r: 1, g: 1, b: 1, a: 1}
+  - TerrainType: 1
+    Text: Forest
+    Sprite: {fileID: 0}
+    Mask: {r: 1, g: 1, b: 1, a: 1}
+    WallSprite: {fileID: 0}
+    WallMask: {r: 1, g: 1, b: 1, a: 1}
+  - TerrainType: 2
+    Text: Mountains
+    Sprite: {fileID: 0}
+    Mask: {r: 1, g: 1, b: 1, a: 1}
+    WallSprite: {fileID: 0}
+    WallMask: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -49,5 +67,5 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 151922}
+  m_RootGameObject: {fileID: 175072}
   m_IsPrefabParent: 1

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MouseControls : MonoBehaviour {
+public class WorldMapControls : MonoBehaviour {
     public GameObject HoverHighlight;
 
     int worldMapLayer = -1;
@@ -38,7 +38,7 @@ public class MouseControls : MonoBehaviour {
             WorldMapHexagonTile tile = hit.collider.GetComponent<WorldMapHexagonTile>();
             if (tile != null && !tile.FogOfWar && !tile.Visited)
             {
-                DataCarrier.LoadGameplayScene(tile, null);
+                WorldMap.Instance.SelectedTile = tile;
             }
         }
     }

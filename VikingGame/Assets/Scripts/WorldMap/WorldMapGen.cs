@@ -5,8 +5,23 @@ using System.Collections.Generic;
 public class WorldMapGen : MonoBehaviour {
     public static WorldMapGen Instance;
 
-    float magicXOffset = 0.65f;
-    float magixYOffset = 0.49f;
+    public List<WorldMapTerrainDefinition> Terrain = new List<WorldMapTerrainDefinition>() {
+        new WorldMapTerrainDefinition(WorldMapTerrainDefinition.Type.Plains),
+        new WorldMapTerrainDefinition(WorldMapTerrainDefinition.Type.Forest),
+        new WorldMapTerrainDefinition(WorldMapTerrainDefinition.Type.Mountains)
+    };
+    public List<BuildingDefinition> Buildings = new List<BuildingDefinition>() {
+        new BuildingDefinition(BuildingDefinition.Type.Tavern)
+    };
+    public List<OverlayDefinition> Overlays = new List<OverlayDefinition>() {
+        new OverlayDefinition(OverlayDefinition.Type.FogOfWar)
+    };
+
+    //Based on tile sizes
+    float xOffset = 1f;
+    float yOffset = 0.75f;
+
+
     int mapSizeX = 19;
     int mapSizeY = 19;
 
@@ -26,11 +41,25 @@ public class WorldMapGen : MonoBehaviour {
             DiscoverAllNeighbourTiles();
             MakeTerrain();
             MakeBuildings();
+            GenerateAllDifficulty();
         }
         else
         {
             RestoreHexagonTileGrid();
         }
+    }
+
+    void GenerateAllDifficulty()
+    {
+        foreach (WorldMapHexagonTile t in DataCarrier.PersistentData.WorldRepresentation.Values)
+        {
+            GenerateDifficulty(t);
+        }
+    }
+
+    void GenerateDifficulty(WorldMapHexagonTile tile)
+    {
+        tile.Difficulty = Vector2.Distance(tile.TileCoordinate, Vector2.zero);
     }
 
     void RestoreHexagonTileGrid()
@@ -39,6 +68,7 @@ public class WorldMapGen : MonoBehaviour {
         {
             t.transform.position = TileCoordToWorldCoord(t.TileCoordinate);
             DiscoverNeighbourTiles(t);
+            GenerateDifficulty(t);
         }
     }
 
@@ -63,8 +93,8 @@ public class WorldMapGen : MonoBehaviour {
     public Vector3 TileCoordToWorldCoord(Vector2 tileCoord)
     {
         return new Vector3(
-            (tileCoord.y % 2 == 0) ? tileCoord.x * magicXOffset : tileCoord.x * magicXOffset + magicXOffset * 0.5f,
-            tileCoord.y * magixYOffset,
+            (tileCoord.y % 2 == 0) ? tileCoord.x * xOffset : tileCoord.x * xOffset + xOffset * 0.5f,
+            tileCoord.y * yOffset,
             -0.5f);
     }
 
@@ -141,13 +171,13 @@ public class WorldMapGen : MonoBehaviour {
     void MakeTerrain()
     {
         List<int> list = new List<int>();
-        WorldMap.Instance.Terrain.ForEach(x => list.Add(x.Weight));
+        Terrain.ForEach(x => list.Add(x.Weight));
 
         WeightedRandomizer randomizer = new WeightedRandomizer(list);
         foreach (WorldMapHexagonTile tile in DataCarrier.PersistentData.WorldRepresentation.Values)
         {
             int ran = randomizer.GetRandomIndex();
-            TerrainDefinition def = WorldMap.Instance.Terrain[ran];
+            WorldMapTerrainDefinition def = Terrain[ran];
             tile.Terrain = def;
         }
     }
@@ -158,7 +188,89 @@ public class WorldMapGen : MonoBehaviour {
         if (DataCarrier.PersistentData.WorldRepresentation.ContainsKey(new Vector2(0,0)))
         {
             WorldMapHexagonTile tile = DataCarrier.PersistentData.WorldRepresentation[new Vector2(0, 0)];
-            tile.Building = WorldMap.Instance.Buildings[(int)BuildingDefinition.Type.Tavern];
+            tile.Building = Buildings[(int)BuildingDefinition.Type.Tavern];
         }
     }
+}
+
+[System.Serializable]
+public abstract class TerrainDefinition
+{
+    public enum Type { Plains, Forest, Mountains }
+    
+    public Type TerrainType;
+    public string Text;
+    public Sprite Sprite;
+    public Color Mask = new Color().RGB32(0xFF, 0xFF, 0xFF);
+
+    public TerrainDefinition(Type TerrainType, Sprite Sprite)
+    {
+        this.TerrainType = TerrainType;
+        this.Sprite = Sprite;
+
+        this.Text = this.TerrainType.GetName();
+    }
+
+    public TerrainDefinition(Type TerrainType)
+        : this(TerrainType, null)
+    { }
+}
+
+[System.Serializable]
+public class WorldMapTerrainDefinition : TerrainDefinition
+{
+    public int Weight = 1;
+
+    public WorldMapTerrainDefinition(Type TerrainType, Sprite Sprite) : base(TerrainType, Sprite)
+    { }
+
+    public WorldMapTerrainDefinition(Type TerrainType) : base(TerrainType)
+    { }
+}
+
+[System.Serializable]
+public class BuildingDefinition
+{
+    public enum Type { Tavern }
+
+    public Type BuildingType;
+    public string Text;
+    public Sprite Sprite;
+    public Color Mask = new Color().RGB32(0xff, 0xff, 0xff);
+
+    public BuildingDefinition(Type BuildingType, Sprite sprite)
+    {
+        this.BuildingType = BuildingType;
+        this.Sprite = sprite;
+
+        this.Text = this.BuildingType.GetName();
+    }
+
+    public BuildingDefinition(Type BuildingType)
+        : this(BuildingType, null)
+    { }
+}
+
+[System.Serializable]
+public struct OverlayDefinition
+{
+    public enum Type { FogOfWar }
+
+    public Type OverlayType;
+    public string Text;
+    public Sprite Sprite;
+    public Color Mask;
+
+    public OverlayDefinition(Type OverlayType, Sprite sprite)
+    {
+        this.OverlayType = OverlayType;
+        this.Sprite = sprite;
+
+        this.Text = this.OverlayType.GetName();
+        this.Mask = new Color().RGB32(0xff, 0xff, 0xff);
+    }
+
+    public OverlayDefinition(Type OverlayType)
+        : this(OverlayType, null)
+    { }
 }
