@@ -5,21 +5,21 @@ using System.Linq;
 public class WorldMap : MonoBehaviour {
     public static WorldMap Instance;
 
-    public delegate void SelectedTileDelegate(WorldMapHexagonTile selectedTile);
+    public delegate void SelectedTileDelegate(WorldMapHexagonTileData selectedTileData);
     public event SelectedTileDelegate OnSelectedTileChanged;
 
-    private WorldMapHexagonTile _selectedTile;
-    public WorldMapHexagonTile SelectedTile
+    private WorldMapHexagonTileData _selectedTileData;
+    public WorldMapHexagonTileData SelectedTileData
     {
-        get { return _selectedTile; }
+        get { return _selectedTileData; }
         set 
         {
-            if (value != _selectedTile)
+            if (value != _selectedTileData)
             {
-                _selectedTile = value;
+                _selectedTileData = value;
                 if (OnSelectedTileChanged != null)
                 {
-                    OnSelectedTileChanged(_selectedTile);
+                    OnSelectedTileChanged(_selectedTileData);
                 }
             }
         }
@@ -33,19 +33,15 @@ public class WorldMap : MonoBehaviour {
     void Start()
     {
         WorldMapGen.Instance.GenerateMap();
-        InitializeFogOfWar();
+        VisitTileOnRaidSuccess();
     }
 
-    void InitializeFogOfWar()
+    void VisitTileOnRaidSuccess()
     {
-        foreach (WorldMapHexagonTile tile in DataCarrier.PersistentData.WorldRepresentation.Values)
+        if (DataCarrier.RaidSuccessful && DataCarrier.SelectedTileData != null)
         {
-            tile.FogOfWar = true;
-        }
-
-        if (DataCarrier.PersistentData.WorldRepresentation.ContainsKey(new Vector2(0, 0)))
-        {
-            DataCarrier.PersistentData.WorldRepresentation[new Vector2(0, 0)].Visited = true;
+            DataCarrier.RaidSuccessful = false;
+            DataCarrier.SelectedTileData.Visited = true;
         }
     }
 
@@ -53,10 +49,10 @@ public class WorldMap : MonoBehaviour {
     {
         Debug.Log("MapMode: Default");
 
-        foreach (WorldMapHexagonTile tile in DataCarrier.PersistentData.WorldRepresentation.Values)
+        foreach (WorldMapHexagonTileData tileData in DataCarrier.PersistentData.WorldRepresentation.Values)
         {
-            tile.Terrain = tile.Terrain;
-            tile.Building = tile.Building;
+            tileData.Terrain = tileData.Terrain;
+            tileData.Building = tileData.Building;
         }
     }
 
@@ -64,10 +60,10 @@ public class WorldMap : MonoBehaviour {
     {
         Debug.Log("MapMode: Tile Coordinates");
 
-        foreach (WorldMapHexagonTile tile in DataCarrier.PersistentData.WorldRepresentation.Values)
+        foreach (WorldMapHexagonTileData tileData in DataCarrier.PersistentData.WorldRepresentation.Values)
         {
-            tile.Text.text = tile.TileCoordinate.ToString();
-            tile.Sprite.color = tile.Terrain.Mask;
+            tileData.Tile.Text.text = tileData.TileCoordinate.ToString();
+            tileData.Tile.Sprite.color = tileData.Terrain.Mask;
         }
     }
 
@@ -75,17 +71,17 @@ public class WorldMap : MonoBehaviour {
     {
         Debug.Log("MapMode: Visited Tiles");
 
-        foreach (WorldMapHexagonTile tile in DataCarrier.PersistentData.WorldRepresentation.Values)
+        foreach (WorldMapHexagonTileData tileData in DataCarrier.PersistentData.WorldRepresentation.Values)
         {
-            if (tile.Visited)
+            if (tileData.Visited)
             {
-                tile.Text.text = "Visited";
-                tile.Sprite.color = new Color().RGB32(0xAA, 0xAA, 0xAA);
+                tileData.Tile.Text.text = "Visited";
+                tileData.Tile.Sprite.color = new Color().RGB32(0xAA, 0xAA, 0xAA);
             }
             else
             {
-                tile.Text.text = "Not\nVisisted";
-                tile.Sprite.color = new Color().RGB32(0x00, 0xFF, 0x00);
+                tileData.Tile.Text.text = "Not\nVisisted";
+                tileData.Tile.Sprite.color = new Color().RGB32(0x00, 0xFF, 0x00);
             }
         }
     }
@@ -93,16 +89,16 @@ public class WorldMap : MonoBehaviour {
     public void MapModeDifficulty()
     {
         Debug.Log("MapMode: Difficulty");
-        
+
         float max = DataCarrier.PersistentData.WorldRepresentation.Values.ToList().Max(t => t.Difficulty);
         
-        foreach (WorldMapHexagonTile tile in DataCarrier.PersistentData.WorldRepresentation.Values)
+        foreach (WorldMapHexagonTileData tileData in DataCarrier.PersistentData.WorldRepresentation.Values)
         {
-            tile.Text.text = tile.Difficulty.ToString();
-            tile.Sprite.color = new Color(
+            tileData.Tile.Text.text = tileData.Difficulty.ToString();
+            tileData.Tile.Sprite.color = new Color(
                 1f,
-                1f - tile.Difficulty / max,
-                1f - tile.Difficulty / max);
+                1f - tileData.Difficulty / max,
+                1f - tileData.Difficulty / max);
         }
     }
 }

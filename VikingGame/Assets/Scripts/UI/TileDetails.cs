@@ -11,13 +11,13 @@ public class TileDetails : MonoBehaviour {
 	    WorldMap.Instance.OnSelectedTileChanged += OnSelectedTileChanged;
 	}
 	
-    void OnSelectedTileChanged(WorldMapHexagonTile selectedTile)
+    void OnSelectedTileChanged(WorldMapHexagonTileData selectedTileData)
     {
         StartRaidBtn.gameObject.SetActive(true);
     }
 
     public void StartRaidBtnClick()
     {
-        DataCarrier.LoadRaidMapScene(WorldMap.Instance.SelectedTile, null);
+        DataCarrier.LoadRaidMapScene(WorldMap.Instance.SelectedTileData, null);
     }
 }

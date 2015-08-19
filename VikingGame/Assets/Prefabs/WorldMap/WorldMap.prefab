@@ -54,29 +54,29 @@ MonoBehaviour:
   Terrain:
   - TerrainType: 0
     Text: Plains
-    Sprite: {fileID: 0}
-    Mask: {r: 1, g: 1, b: 1, a: 1}
+    Sprite: {fileID: 21300000, guid: f2e421876bcdb2b4ea85ce55db2314d9, type: 3}
+    Mask: {r: 0, g: 1, b: 0, a: 1}
     Weight: 1
   - TerrainType: 1
     Text: Forest
-    Sprite: {fileID: 0}
-    Mask: {r: 1, g: 1, b: 1, a: 1}
+    Sprite: {fileID: 21300000, guid: f2e421876bcdb2b4ea85ce55db2314d9, type: 3}
+    Mask: {r: 0, g: .490196079, b: 0, a: 1}
     Weight: 1
   - TerrainType: 2
     Text: Mountains
-    Sprite: {fileID: 0}
-    Mask: {r: 1, g: 1, b: 1, a: 1}
+    Sprite: {fileID: 21300000, guid: f2e421876bcdb2b4ea85ce55db2314d9, type: 3}
+    Mask: {r: .70588237, g: .70588237, b: .70588237, a: 1}
     Weight: 1
   Buildings:
   - BuildingType: 0
     Text: Tavern
-    Sprite: {fileID: 0}
-    Mask: {r: 1, g: 1, b: 1, a: 1}
+    Sprite: {fileID: 21300000, guid: f2e421876bcdb2b4ea85ce55db2314d9, type: 3}
+    Mask: {r: .258823544, g: .129411772, b: 0, a: 1}
   Overlays:
   - OverlayType: 0
     Text: FogOfWar
-    Sprite: {fileID: 0}
-    Mask: {r: 1, g: 1, b: 1, a: 1}
+    Sprite: {fileID: 21300000, guid: f0d501ff7e6d4964089aa4091c81b6c6, type: 3}
+    Mask: {r: .215686277, g: .215686277, b: .215686277, a: .882352948}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
