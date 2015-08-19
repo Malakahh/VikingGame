@@ -45,7 +45,7 @@ public class RaidMapGen : MonoBehaviour {
 
     void GenerateMap()
     {
-        for (int y = 0; y < 10; y++)
+        for (int y = 0; y < length; y++)
         {
             GenerateRow(new Vector3(0, y));
         }
@@ -56,7 +56,7 @@ public class RaidMapGen : MonoBehaviour {
         for (int x = -(int)(width + .5f); x < width + 0.5f; x++)
         {
             RaidMapTile t = ObjectPool.Acquire<RaidMapTile>();
-            t.transform.position = new Vector3(x, offset.y, 0);
+            t.transform.position = new Vector3(x, offset.y, this.transform.position.z);
 
             if (x < -width || x > width) //Leftmost or rightmost tile
             {
