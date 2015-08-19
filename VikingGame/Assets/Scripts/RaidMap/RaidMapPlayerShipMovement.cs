@@ -23,7 +23,11 @@ public class RaidMapPlayerShipMovement : MonoBehaviour {
             increment += Vector3.right * SteerSpeed * TimeManager.GameplayTime.deltaTime;
         }
 
-        //Todo: Make checks to constrain ship to map
+        if (this.transform.position.x + increment.x < -RaidMapGen.Instance.PlayableAreaWidth / 2 ||
+            this.transform.position.x + increment.x > RaidMapGen.Instance.PlayableAreaWidth / 2)
+        {
+            increment.x = 0;
+        }
 
         this.transform.position += increment;
     }

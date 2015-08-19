@@ -2,18 +2,36 @@
 using System.Collections.Generic;
 
 public class RaidMapGen : MonoBehaviour {
+    public static RaidMapGen Instance;
+
     public List<RaidMapTerrainDefinition> Terrain = new List<RaidMapTerrainDefinition>() {
         new RaidMapTerrainDefinition(TerrainDefinition.Type.Plains),
         new RaidMapTerrainDefinition(TerrainDefinition.Type.Forest),
         new RaidMapTerrainDefinition(TerrainDefinition.Type.Mountains)
     };
     
+    /// <summary>
+    /// How many tiles on each edge are walls
+    /// </summary>
+    public int WallWidth = 2;
+
+    /// <summary>
+    /// Total width on map meassured in tiles
+    /// </summary>
+    public int TotalWidth { get; private set; }
+
+    /// <summary>
+    /// Play area width meassured in tiles (TotalWidth - WallWidth)
+    /// </summary>
+    public int PlayableAreaWidth { get; private set; }
+
     int length;
-    float width;
     int terrainType;
 
     void Awake()
     {
+        Instance = this;
+
         if (DataCarrier.SelectedTile == null)
         {
             CreateDummyData();
@@ -31,8 +49,9 @@ public class RaidMapGen : MonoBehaviour {
     {
         SetupCamera();
 
-        this.length = 50 + 1 * (int)(DataCarrier.SelectedTile.Difficulty + .5f);
-        this.width = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, 0)).x;
+        this.length = 100 + 5 * (int)(DataCarrier.SelectedTile.Difficulty + .5f);
+        this.TotalWidth = (int)(Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, 0)).x + .5f) * 2;
+        this.PlayableAreaWidth = TotalWidth - WallWidth * 2;
         this.terrainType = (int)DataCarrier.SelectedTile.Terrain.TerrainType;
 
         GenerateMap();
@@ -40,7 +59,7 @@ public class RaidMapGen : MonoBehaviour {
 
     void SetupCamera()
     {
-
+        //Camera.main.orthographicSize = 10;
     }
 
     void GenerateMap()
@@ -53,12 +72,14 @@ public class RaidMapGen : MonoBehaviour {
 
     void GenerateRow(Vector3 offset)
     {
-        for (int x = -(int)(width + .5f); x < width + 0.5f; x++)
+        int halfWidth = TotalWidth / 2;
+
+        for (int x = -halfWidth; x <= halfWidth; x++)
         {
             RaidMapTile t = ObjectPool.Acquire<RaidMapTile>();
             t.transform.position = new Vector3(x, offset.y, this.transform.position.z);
 
-            if (x < -width || x > width) //Leftmost or rightmost tile
+            if (x < -halfWidth + WallWidth || x > halfWidth - WallWidth) //Leftmost or rightmost tiles
             {
                 t.Sprite.sprite = Terrain[terrainType].WallSprite;
                 t.Sprite.color = Terrain[terrainType].WallMask;
@@ -68,7 +89,7 @@ public class RaidMapGen : MonoBehaviour {
                 t.Sprite.sprite = Terrain[terrainType].Sprite;
                 t.Sprite.color = Terrain[terrainType].Mask;
             }
-
+            
             t.gameObject.SetActive(true);
         }
     }

@@ -4,13 +4,7 @@ using System.Collections;
 public class WorldMapControls : MonoBehaviour {
     public GameObject HoverHighlight;
 
-    int worldMapLayer = -1;
     RaycastHit2D hit;
-
-    void Start()
-    {
-        worldMapLayer = LayerMask.NameToLayer("WorldMap");
-    }
 
     void Update()
     {
