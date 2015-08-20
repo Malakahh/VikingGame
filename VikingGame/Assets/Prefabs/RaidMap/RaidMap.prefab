@@ -9,6 +9,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 486290}
   - 114: {fileID: 11414118}
+  - 114: {fileID: 11403182}
+  - 114: {fileID: 11450574}
   m_Layer: 0
   m_Name: RaidMap
   m_TagString: Untagged
@@ -28,6 +30,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!114 &11403182
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 175072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cfa2a137a452214cb579e28cbcdb318, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11414118
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -58,6 +71,19 @@ MonoBehaviour:
     Mask: {r: 0, g: 1, b: 0, a: 1}
     WallSprite: {fileID: 21300000, guid: 52e0c3f9b5590284dae9fbc156cb595e, type: 3}
     WallMask: {r: .70588237, g: .70588237, b: .70588237, a: 1}
+  Tiles: []
+  WallWidth: 2
+--- !u!114 &11450574
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 175072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04a8389692a691c40a2a51767817dd26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

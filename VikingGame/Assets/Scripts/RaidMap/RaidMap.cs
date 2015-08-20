@@ -3,14 +3,6 @@ using System.Collections;
 
 public class RaidMap : MonoBehaviour {
 
-    void Awake()
-    {
-        if (DataCarrier.SelectedShip == null)
-        {
-            CreateDummyData();
-        }
-    }
-	
     void CreateDummyData()
     {
         Debug.LogWarning("RaidMap: Creating dummy data");
@@ -19,7 +11,14 @@ public class RaidMap : MonoBehaviour {
 
     void Start()
     {
+        if (DataCarrier.SelectedShip == null)
+        {
+            CreateDummyData();
+        }
+
+        RaidMapGen.Instance.GenerateMap();
         PlaceShip();
+
     }
 
     void PlaceShip()

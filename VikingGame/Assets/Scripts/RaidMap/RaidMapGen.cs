@@ -48,7 +48,17 @@ public class RaidMapGen : MonoBehaviour {
         DataCarrier.SelectedTileData.Difficulty = 1;
     }
 
-    void Start()
+    public void GenerateMap()
+    {
+        InitializeVariables();
+
+        for (int y = 0; y < Length; y++)
+        {
+            GenerateRow(new Vector3(0, y));
+        }
+    }
+
+    void InitializeVariables()
     {
         if (DataCarrier.SelectedTileData == null)
         {
@@ -61,21 +71,11 @@ public class RaidMapGen : MonoBehaviour {
         this.TotalWidth = (int)(Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, 0)).x + .5f) * 2;
         this.PlayableAreaWidth = TotalWidth - WallWidth * 2;
         this.terrainType = (int)DataCarrier.SelectedTileData.Terrain.TerrainType;
-
-        GenerateMap();
     }
 
     void SetupCamera()
     {
         //Camera.main.orthographicSize = 10;
-    }
-
-    void GenerateMap()
-    {
-        for (int y = 0; y < Length; y++)
-        {
-            GenerateRow(new Vector3(0, y));
-        }
     }
 
     void GenerateRow(Vector3 offset)
