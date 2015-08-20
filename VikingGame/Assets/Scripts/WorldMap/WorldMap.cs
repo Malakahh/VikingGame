@@ -33,16 +33,12 @@ public class WorldMap : MonoBehaviour {
     void Start()
     {
         WorldMapGen.Instance.GenerateMap();
-        VisitTileOnRaidSuccess();
+        RaidCompletionChecker.Instance.OnRaidSuccessful += Instance_OnRaidSuccessful;
     }
 
-    void VisitTileOnRaidSuccess()
+    void Instance_OnRaidSuccessful(WorldMapHexagonTileData tileData)
     {
-        if (DataCarrier.RaidSuccessful && DataCarrier.SelectedTileData != null)
-        {
-            DataCarrier.RaidSuccessful = false;
-            DataCarrier.SelectedTileData.Visited = true;
-        }
+        tileData.Visited = true;
     }
 
     public void MapModeDefault()
@@ -101,5 +97,9 @@ public class WorldMap : MonoBehaviour {
                 1f - tileData.Difficulty / max);
         }
     }
-}
 
+    void OnDestroy()
+    {
+        RaidCompletionChecker.Instance.OnRaidSuccessful -= Instance_OnRaidSuccessful;
+    }
+}

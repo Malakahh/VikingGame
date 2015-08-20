@@ -22,8 +22,19 @@ public class WorldMapGen : MonoBehaviour {
     float yOffset = 0.75f;
 
 
-    int mapSizeX = 19;
-    int mapSizeY = 19;
+    int _mapWidth = 19;
+    public int MapWidth
+    {
+        get { return _mapWidth; }
+        private set { _mapWidth = value; }
+    }
+
+    int _mapHeight = 19;
+    public int MapHeight
+    {
+        get { return _mapHeight; }
+        set { _mapHeight = value; }
+    }
 
     void Awake()
     {
@@ -94,9 +105,9 @@ public class WorldMapGen : MonoBehaviour {
 
     void GenerateHexagonTileGrid()
     {
-        for (int x = -(int)(mapSizeX / 2f - 0.5f); x < mapSizeX / 2f; x++)
+        for (int x = -(int)(MapWidth / 2f - 0.5f); x < MapWidth / 2f; x++)
         {
-            for (int y = -(int)(mapSizeY / 2f - 0.5f); y < mapSizeY / 2f; y++)
+            for (int y = -(int)(MapHeight / 2f - 0.5f); y < MapHeight / 2f; y++)
             {
                 WorldMapHexagonTile tile = ObjectPool.Instance.Acquire<WorldMapHexagonTile>();
                 tile.transform.parent = WorldMap.Instance.transform;
