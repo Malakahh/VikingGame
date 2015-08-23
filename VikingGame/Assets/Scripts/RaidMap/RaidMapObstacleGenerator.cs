@@ -32,7 +32,7 @@ public class RaidMapObstacleGenerator : MonoBehaviour {
     {
         ObstacleMetaList = new List<ObstacleMetaData>() {
             new ObstacleMetaData(7.5f, 1, ObjectPool.Instance.Acquire<Boulder>),
-            new ObstacleMetaData(5, 1, ObjectPool.Instance.Acquire<Target>)
+            new ObstacleMetaData(5, 2, ObjectPool.Instance.Acquire<Target>)
         };
     }
 
