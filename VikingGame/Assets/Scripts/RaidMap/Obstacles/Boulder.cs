@@ -5,6 +5,9 @@ public class Boulder : Obstacle {
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        DataCarrier.SelectedShip.TakeDamage(5);
+        if (other.GetComponent<Ship>() != null)
+        {
+            DataCarrier.SelectedShip.TakeDamage(5);
+        }
     }
 }
