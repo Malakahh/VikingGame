@@ -6,7 +6,9 @@ public class TargetShooter : Weapon {
     {
         if (other.GetComponent<Target>() != null)
         {
-            
+            TargetShooterBullet bullet = ObjectPool.Instance.Acquire<TargetShooterBullet>();
+            bullet.SetTrajectory(this.transform.position, other.transform.position);
+            bullet.gameObject.SetActive(true);
         }
     }
 }

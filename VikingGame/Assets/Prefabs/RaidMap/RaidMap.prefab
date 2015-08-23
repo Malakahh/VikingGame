@@ -63,8 +63,8 @@ MonoBehaviour:
     Text: Forest
     Sprite: {fileID: 21300000, guid: 52e0c3f9b5590284dae9fbc156cb595e, type: 3}
     Mask: {r: 0, g: 1, b: 0, a: 1}
-    WallSprite: {fileID: 21300000, guid: 7e317b0770f206b45ab6867705145194, type: 3}
-    WallMask: {r: 0, g: 1, b: 0, a: 1}
+    WallSprite: {fileID: 21300000, guid: fc249934d609ab04eb12fe61af4f847a, type: 3}
+    WallMask: {r: 1, g: 1, b: 1, a: 1}
   - TerrainType: 2
     Text: Mountains
     Sprite: {fileID: 21300000, guid: 52e0c3f9b5590284dae9fbc156cb595e, type: 3}
