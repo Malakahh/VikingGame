@@ -17,8 +17,8 @@ public class RaidMap : MonoBehaviour {
         }
 
         RaidMapGen.Instance.GenerateMap();
+        RaidMapObstacleGenerator.Instance.SpawnObstacles();
         PlaceShip();
-
     }
 
     void PlaceShip()

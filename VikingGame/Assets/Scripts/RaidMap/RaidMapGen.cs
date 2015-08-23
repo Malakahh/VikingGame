@@ -67,7 +67,7 @@ public class RaidMapGen : MonoBehaviour {
 
         SetupCamera();
 
-        this.Length = 10 + 5 * (int)(DataCarrier.SelectedTileData.Difficulty + .5f);
+        this.Length = 100 + 5 * (int)(DataCarrier.SelectedTileData.Difficulty + .5f);
         this.TotalWidth = (int)(Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, 0)).x + .5f) * 2;
         this.PlayableAreaWidth = TotalWidth - WallWidth * 2;
         this.terrainType = (int)DataCarrier.SelectedTileData.Terrain.TerrainType;
@@ -76,6 +76,7 @@ public class RaidMapGen : MonoBehaviour {
     void SetupCamera()
     {
         //Camera.main.orthographicSize = 10;
+        Camera.main.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width * 0.5f, Screen.height - Screen.height * 0.15f));
     }
 
     void GenerateRow(Vector3 offset)
