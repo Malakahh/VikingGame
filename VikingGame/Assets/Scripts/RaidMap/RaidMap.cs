@@ -3,22 +3,32 @@ using System.Collections;
 
 public class RaidMap : MonoBehaviour {
 
-    void Awake()
+    void CreateDummyData()
+    {
+        Debug.LogWarning("RaidMap: Creating dummy data");
+        DataCarrier.SelectedShip = ObjectPool.Instance.Acquire<Ship>();
+        TargetShooter shooter1 = ObjectPool.Instance.Acquire<TargetShooter>();
+        //TargetShooter shooter2 = ObjectPool.Instance.Acquire<TargetShooter>();
+
+        shooter1.AttachPoint = Weapon.WeaponAttachPoint.Left;
+        //shooter2.AttachPoint = Weapon.WeaponAttachPoint.Right;
+
+        shooter1.transform.parent = DataCarrier.SelectedShip.transform;
+        //shooter2.transform.parent = DataCarrier.SelectedShip.transform;
+
+        shooter1.gameObject.SetActive(true);
+        //shooter2.gameObject.SetActive(true);
+    }
+
+    void Start()
     {
         if (DataCarrier.SelectedShip == null)
         {
             CreateDummyData();
         }
-    }
-	
-    void CreateDummyData()
-    {
-        Debug.LogWarning("RaidMap: Creating dummy data");
-        DataCarrier.SelectedShip = ObjectPool.Instance.Acquire<Ship>();
-    }
 
-    void Start()
-    {
+        RaidMapGen.Instance.GenerateMap();
+        RaidMapObstacleGenerator.Instance.SpawnObstacles();
         PlaceShip();
     }
 

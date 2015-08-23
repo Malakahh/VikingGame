@@ -34,8 +34,8 @@ public class RaidMapPlayerShipMovement : MonoBehaviour {
 
     void ForwardMovement()
     {
-        Vector3 xIncrement = Vector3.up * ForwardSpeed * TimeManager.GameplayTime.deltaTime;
-        transform.position += xIncrement;
-        Camera.main.transform.position += xIncrement;
+        Vector3 yIncrement = Vector3.up * ForwardSpeed * TimeManager.GameplayTime.deltaTime;
+        transform.position += yIncrement;
+        Camera.main.transform.position += yIncrement;
     }
 }
