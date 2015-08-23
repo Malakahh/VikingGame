@@ -1,0 +1,102 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &108674
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 484518}
+  - 114: {fileID: 11460936}
+  - 114: {fileID: 11448160}
+  - 114: {fileID: 11463512}
+  m_Layer: 0
+  m_Name: WorldMap
+  m_TagString: WorldMap
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &484518
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 108674}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+--- !u!114 &11448160
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 108674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4fe16d3146a0774387ea88c69c45e06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &11460936
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 108674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 356af037f77df5248a726899ba1514f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Terrain:
+  - TerrainType: 0
+    Text: Plains
+    Sprite: {fileID: 21300000, guid: f2e421876bcdb2b4ea85ce55db2314d9, type: 3}
+    Mask: {r: 0, g: 1, b: 0, a: 1}
+    Weight: 1
+  - TerrainType: 1
+    Text: Forest
+    Sprite: {fileID: 21300000, guid: f2e421876bcdb2b4ea85ce55db2314d9, type: 3}
+    Mask: {r: 0, g: .490196079, b: 0, a: 1}
+    Weight: 1
+  - TerrainType: 2
+    Text: Mountains
+    Sprite: {fileID: 21300000, guid: f2e421876bcdb2b4ea85ce55db2314d9, type: 3}
+    Mask: {r: .70588237, g: .70588237, b: .70588237, a: 1}
+    Weight: 1
+  Buildings:
+  - BuildingType: 0
+    Text: Tavern
+    Sprite: {fileID: 21300000, guid: f2e421876bcdb2b4ea85ce55db2314d9, type: 3}
+    Mask: {r: .258823544, g: .129411772, b: 0, a: 1}
+  Overlays:
+  - OverlayType: 0
+    Text: FogOfWar
+    Sprite: {fileID: 21300000, guid: f0d501ff7e6d4964089aa4091c81b6c6, type: 3}
+    Mask: {r: .215686277, g: .215686277, b: .215686277, a: .882352948}
+--- !u!114 &11463512
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 108674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b3070a21e5fc2d40afd0ccedb5e5ff3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 108674}
+  m_IsPrefabParent: 1
