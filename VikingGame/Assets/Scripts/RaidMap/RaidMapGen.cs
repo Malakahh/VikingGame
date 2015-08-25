@@ -88,15 +88,17 @@ public class RaidMapGen : MonoBehaviour {
             RaidMapTile t = ObjectPool.Instance.Acquire<RaidMapTile>();
             t.transform.position = new Vector3(x, offset.y, this.transform.position.z);
 
+            RaidMapTerrainDefinition def = Terrain[terrainType];
+
             if (x < -halfWidth + WallWidth || x > halfWidth - WallWidth) //Leftmost or rightmost tiles
             {
-                t.Sprite.sprite = Terrain[terrainType].WallSprite;
-                t.Sprite.color = Terrain[terrainType].WallMask;
+                t.Sprite.sprite = def.WallSprites[Random.Range(0, def.WallSprites.Count)];
+                t.Sprite.color = def.WallMask;
             }
             else
             {
-                t.Sprite.sprite = Terrain[terrainType].Sprite;
-                t.Sprite.color = Terrain[terrainType].Mask;
+                t.Sprite.sprite = def.Sprites[Random.Range(0, def.Sprites.Count)];
+                t.Sprite.color = def.Mask;
             }
             
             t.gameObject.SetActive(true);
@@ -108,14 +110,9 @@ public class RaidMapGen : MonoBehaviour {
 [System.Serializable]
 public class RaidMapTerrainDefinition : TerrainDefinition
 {
-    public Sprite WallSprite;
+    public List<Sprite> WallSprites;
     public Color WallMask = new Color().RGB32(0xFF, 0xFF, 0xFF);
 
-    public RaidMapTerrainDefinition(Type TerrainType, Sprite Sprite, Sprite WallSprite) : base(TerrainType, Sprite)
-    {
-        this.WallSprite = WallSprite;
-    }
-
-    public RaidMapTerrainDefinition(Type TerrainType) : this(TerrainType, null, null)
+    public RaidMapTerrainDefinition(Type TerrainType) : base(TerrainType)
     { }
 }

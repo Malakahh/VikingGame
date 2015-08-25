@@ -46,9 +46,9 @@ public class WorldMapHexagonTileData
 
             if (_terrain != null && Tile != null)
             {
-                if (_terrain.Sprite != null && Tile.Sprite != null)
+                if (_terrain.Sprites != null && Tile.Sprite != null)
                 {
-                    Tile.Sprite.sprite = _terrain.Sprite;
+                    Tile.Sprite.sprite = _terrain.Sprites[Random.Range(0, _terrain.Sprites.Count)];
                     Tile.Sprite.color = _terrain.Mask;
                 }
 

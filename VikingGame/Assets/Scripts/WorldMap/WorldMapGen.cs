@@ -231,29 +231,20 @@ public abstract class TerrainDefinition
     
     public Type TerrainType;
     public string Text;
-    public Sprite Sprite;
+    public List<Sprite> Sprites;
     public Color Mask = new Color().RGB32(0xFF, 0xFF, 0xFF);
 
-    public TerrainDefinition(Type TerrainType, Sprite Sprite)
+    public TerrainDefinition(Type TerrainType)
     {
         this.TerrainType = TerrainType;
-        this.Sprite = Sprite;
-
         this.Text = this.TerrainType.GetName();
     }
-
-    public TerrainDefinition(Type TerrainType)
-        : this(TerrainType, null)
-    { }
 }
 
 [System.Serializable]
 public class WorldMapTerrainDefinition : TerrainDefinition
 {
     public int Weight = 1;
-
-    public WorldMapTerrainDefinition(Type TerrainType, Sprite Sprite) : base(TerrainType, Sprite)
-    { }
 
     public WorldMapTerrainDefinition(Type TerrainType) : base(TerrainType)
     { }
