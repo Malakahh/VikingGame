@@ -3,7 +3,7 @@ using System.Collections;
 
 public abstract class Weapon : MonoBehaviour {
     public enum WeaponAttachPoint { Left, Right };
-    public BoxCollider2D collider;
+    public BoxCollider2D WeaponCollider;
 
     public WeaponAttachPoint AttachPoint = WeaponAttachPoint.Left;
 
@@ -12,10 +12,10 @@ public abstract class Weapon : MonoBehaviour {
         switch (AttachPoint)
         {
             case WeaponAttachPoint.Left:
-                collider.offset = new Vector2(-collider.size.x * 0.5f, collider.size.y * 0.5f);
+                WeaponCollider.offset = new Vector2(-WeaponCollider.size.x * 0.5f, WeaponCollider.size.y * 0.5f);
                 break;
             case WeaponAttachPoint.Right:
-                collider.offset = new Vector2(collider.size.x * 0.5f, collider.size.y * 0.5f);
+                WeaponCollider.offset = new Vector2(WeaponCollider.size.x * 0.5f, WeaponCollider.size.y * 0.5f);
                 break;
         }
 	}

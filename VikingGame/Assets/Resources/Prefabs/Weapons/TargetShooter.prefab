@@ -53,7 +53,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72789f66e39cfbc468fdec7d2a825ddc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collider: {fileID: 6104382}
+  WeaponCollider: {fileID: 6104382}
   AttachPoint: 0
 --- !u!1001 &100100000
 Prefab:
@@ -80,6 +80,10 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: collider
+      value: 
+      objectReference: {fileID: 6104382}
+    - target: {fileID: 0}
+      propertyPath: WeaponCollider
       value: 
       objectReference: {fileID: 6104382}
     m_RemovedComponents: []
