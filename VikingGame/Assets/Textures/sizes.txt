@@ -1,0 +1,11 @@
+
+pixel sizes for photoshop/illustrator documents:
+
+64
+128
+256
+512
+1024
+2048
+4098
+8196
