@@ -16,6 +16,13 @@ public abstract class Ammunition : MonoBehaviour {
         set { _travelSpeed = value; }
     }
 
+    private float _damage = 1f;
+    public float Damage
+    {
+        get { return _damage; }
+        set { _damage = value; }
+    }
+
     Vector3 trajectory;
 
     public virtual void SetTrajectory(Vector3 Origin, Vector3 Target)

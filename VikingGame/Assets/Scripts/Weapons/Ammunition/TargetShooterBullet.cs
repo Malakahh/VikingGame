@@ -2,11 +2,18 @@
 using System.Collections;
 
 public class TargetShooterBullet : Ammunition {
+    void Start()
+    {
+        this.Damage = 50;
+    }
+
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.GetComponent<Target>() != null)
+        Target target = other.GetComponent<Target>();
+        if (target != null)
         {
-            other.gameObject.SetActive(false);
+            DamageHelperTableEntry entry = DamageHelper.Instance.DamageTable.Find(x => x.ArmorType == target.ArmorType && x.DamageType == this.DamageType);
+            target.TakeDamage((int)(this.Damage * entry.MultiplicativeDamageModifier));
             this.gameObject.SetActive(false);
             ObjectPool.Instance.Release<TargetShooterBullet>(this);
         }

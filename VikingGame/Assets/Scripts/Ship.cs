@@ -4,16 +4,16 @@ using System.Collections;
 public class Ship : MonoBehaviour {
     public SpriteRenderer Sprite;
 
-    int _hull = 100;
-    public int Hull
+    int _health = 100;
+    public int Health
     {
-        get { return _hull; }
-        private set { _hull = value; }
+        get { return _health; }
+        private set { _health = value; }
     }
 
     public void TakeDamage(int dmg)
     {
-        Hull -= dmg;
-        Debug.Log("Damage taken: " + dmg + " Hull: " + Hull + "%");
+        Health -= dmg;
+        Debug.Log("Ship Damage taken: " + dmg + " Health: " + Health + "%");
     }
 }

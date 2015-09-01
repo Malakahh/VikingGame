@@ -10,7 +10,7 @@ public class DamageHelper : MonoBehaviour
 {
     public static DamageHelper Instance;
 
-    static DamageHelperTableEntry[] GetDamageTable()
+    static List<DamageHelperTableEntry> GetDamageTable()
     {
         List<DamageHelperTableEntry> table = new List<DamageHelperTableEntry>();
 
@@ -21,26 +21,52 @@ public class DamageHelper : MonoBehaviour
                 table.Add(new DamageHelperTableEntry() {
                     DamageType = dt,
                     ArmorType = at,
-                    DamageModifier = -1f
+                    MultiplicativeDamageModifier = -1f
                 });
             }
         }
 
-        return table.ToArray();
+        return table;
     }
 
-    public DamageHelperTableEntry[] damageTable = GetDamageTable();
+    public List<DamageHelperTableEntry> DamageTable = GetDamageTable();
 
     void Awake()
     {
         Instance = this;
     }
+
+    void Start()
+    {
+        CheckDamageTable();
+    }
+
+    void CheckDamageTable()
+    {
+        int target = Enum.GetValues(typeof(AmmunitionDamageType)).Length * Enum.GetValues(typeof(ObstacleArmorType)).Length;
+        
+        if (DamageTable.Count != target || target <= 0)
+        {
+            Debug.LogError("DamageTable not right...");
+        }
+
+        foreach (DamageHelperTableEntry entry in DamageTable)
+        {
+            if (entry.MultiplicativeDamageModifier == -1)
+            {
+                Debug.LogError("DamageTable not right...");
+            }
+        }
+    }
 }
+
+public class DamageHelperException : Exception
+{ }
 
 [Serializable]
 public class DamageHelperTableEntry
 {
     public AmmunitionDamageType DamageType;
     public ObstacleArmorType ArmorType;
-    public float DamageModifier;
+    public float MultiplicativeDamageModifier;
 }
