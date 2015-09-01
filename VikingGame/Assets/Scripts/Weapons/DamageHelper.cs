@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-public enum ObstacleArmorType { Unarmored }
+public enum ObstacleArmorType { Unarmored, NaturalEnvironment }
 public enum AmmunitionDamageType { Piercing }
 
 [ExecuteInEditMode]

@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public abstract class Weapon : MonoBehaviour {
     public enum WeaponAttachPoint { Left, Right };
@@ -7,8 +7,14 @@ public abstract class Weapon : MonoBehaviour {
 
     public WeaponAttachPoint AttachPoint = WeaponAttachPoint.Left;
 
-	// Use this for initialization
-	void Start () {
+    public float ShootingFrequency = 1f;
+    private float shootTime = 0;
+
+    public List<Obstacle> PossibleTargets = new List<Obstacle>();
+    Obstacle currentTarget;
+
+	void Awake()
+    {
         switch (AttachPoint)
         {
             case WeaponAttachPoint.Left:
@@ -19,4 +25,48 @@ public abstract class Weapon : MonoBehaviour {
                 break;
         }
 	}
+
+    void Update()
+    {
+        shootTime += TimeManager.GameplayTime.deltaTime;
+        if (shootTime >= 1/ShootingFrequency)
+        {
+            shootTime -= 1/ShootingFrequency;
+
+            if (PossibleTargets.Count > 0)
+            {
+                if (!PossibleTargets.Contains(currentTarget))
+                {
+                    currentTarget = SelectBestTarget();
+                }
+                
+                if (currentTarget != null)
+                {
+                    Shoot(currentTarget);
+                }
+            }
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        Obstacle obstacle = other.GetComponent<Obstacle>();
+        if (obstacle != null)
+        {
+            PossibleTargets.Add(obstacle);
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D other)
+    {
+        Obstacle obstacle = other.GetComponent<Obstacle>();
+        if (obstacle != null)
+        {
+            PossibleTargets.Remove(obstacle);
+        }
+    }
+
+    protected abstract Obstacle SelectBestTarget();    
+
+    protected abstract void Shoot(Obstacle target);
 }

@@ -18,12 +18,17 @@ public abstract class Obstacle : MonoBehaviour {
         set { _health = value; }
     }
 
-    public virtual void TakeDamage(int dmg)
+    public virtual void TakeDamage(int dmg, Weapon source)
     {
         Health -= dmg;
 
         if (Health <= 0)
         {
+            if (source.PossibleTargets.Contains(this))
+            {
+                source.PossibleTargets.Remove(this);
+            }
+
             Health = MaxHealth;
             ResetAndRelease();
         }
