@@ -23,12 +23,14 @@ public abstract class Ammunition : MonoBehaviour {
         set { _damage = value; }
     }
 
+    protected Weapon weaponSource;
     Vector3 trajectory;
 
-    public virtual void SetTrajectory(Vector3 Origin, Vector3 Target)
+    public virtual void SetTrajectory(Weapon Source, Vector3 Target)
     {
-        this.trajectory = Target - Origin;
-        this.transform.position = Origin;
+        this.weaponSource = Source;
+        this.trajectory = Target - this.weaponSource.transform.position;
+        this.transform.position = this.weaponSource.transform.position;
 
         if (this.trajectory != Vector3.zero)
         {

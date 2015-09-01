@@ -8,7 +8,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 415248}
-  - 114: {fileID: 11474872}
+  - 114: {fileID: 11413584}
   m_Layer: 0
   m_Name: DamageHelper
   m_TagString: Untagged
@@ -28,7 +28,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!114 &11474872
+--- !u!114 &11413584
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -43,6 +43,9 @@ MonoBehaviour:
   - DamageType: 0
     ArmorType: 0
     MultiplicativeDamageModifier: 1
+  - DamageType: 0
+    ArmorType: 1
+    MultiplicativeDamageModifier: .00999999978
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -51,8 +54,24 @@ Prefab:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 0}
+      propertyPath: DamageTable.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
       propertyPath: DamageTable.Array.data[0].MultiplicativeDamageModifier
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: DamageTable.Array.data[1].MultiplicativeDamageModifier
+      value: .00999999978
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: DamageTable.Array.data[2].ArmorType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: DamageTable.Array.data[2].MultiplicativeDamageModifier
+      value: .00999999978
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

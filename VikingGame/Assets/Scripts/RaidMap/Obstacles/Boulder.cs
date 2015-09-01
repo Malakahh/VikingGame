@@ -1,15 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Boulder : Obstacle {
-    public float Damage = 5f;
-
-    void OnTriggerEnter2D(Collider2D other)
+public class Boulder : DamagingObstacle {
+    void Start()
     {
-        if (other.GetComponent<Ship>() != null)
-        {
-            DataCarrier.SelectedShip.TakeDamage((int)(Damage));
-        }
+        this.Damage = 5f;
+        this.ArmorType = ObstacleArmorType.NaturalEnvironment;
     }
 
     protected override void ResetAndRelease()
