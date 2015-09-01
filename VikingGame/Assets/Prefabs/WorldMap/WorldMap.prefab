@@ -63,7 +63,7 @@ MonoBehaviour:
     Text: Forest
     Sprites:
     - {fileID: 21300000, guid: 04ab3ffb7af1ba044b3c85c9e1ff79f9, type: 3}
-    Mask: {r: .760784388, g: .760784388, b: .760784388, a: 1}
+    Mask: {r: 1, g: 1, b: 1, a: 1}
     Weight: 1
   - TerrainType: 2
     Text: Mountains
@@ -98,7 +98,19 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: Terrain.Array.data[1].Mask.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: Terrain.Array.data[1].Mask.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: Terrain.Array.data[1].Mask.b
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 108674}
