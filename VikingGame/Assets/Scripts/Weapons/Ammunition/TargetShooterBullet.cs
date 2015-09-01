@@ -1,33 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TargetShooterBullet : MonoBehaviour {
-    Vector3 trajectory;
-    float travelSpeed = 25f;
-
-	public void SetTrajectory(Vector3 Origin, Vector3 Target)
+public class TargetShooterBullet : Ammunition {
+    void Start()
     {
-        this.trajectory = Target - Origin;
-
-        this.transform.position = Origin;
-
-        if (this.trajectory != Vector3.zero)
-        {
-            float angle = Mathf.Atan2(this.trajectory.y, this.trajectory.x) * Mathf.Rad2Deg;
-            this.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-        }
-    }
-
-    void Update()
-    {
-        this.transform.position += trajectory.normalized * travelSpeed * TimeManager.GameplayTime.deltaTime;
+        this.Damage = 50;
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.GetComponent<Target>() != null)
+        Target target = other.GetComponent<Target>();
+        if (target != null)
         {
-            other.gameObject.SetActive(false);
+            DamageHelperTableEntry entry = DamageHelper.Instance.DamageTable.Find(x => x.ArmorType == target.ArmorType && x.DamageType == this.DamageType);
+            target.TakeDamage((int)(this.Damage * entry.MultiplicativeDamageModifier));
             this.gameObject.SetActive(false);
             ObjectPool.Instance.Release<TargetShooterBullet>(this);
         }

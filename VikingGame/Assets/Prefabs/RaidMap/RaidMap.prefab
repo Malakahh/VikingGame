@@ -80,8 +80,8 @@ MonoBehaviour:
     - {fileID: 21300000, guid: 52e0c3f9b5590284dae9fbc156cb595e, type: 3}
     Mask: {r: 0, g: 1, b: 0, a: 1}
     WallSprites:
-    - {fileID: 21300000, guid: 52e0c3f9b5590284dae9fbc156cb595e, type: 3}
-    WallMask: {r: .70588237, g: .70588237, b: .70588237, a: 1}
+    - {fileID: 21300000, guid: 3a41ca119881b464787325cb38bb9229, type: 3}
+    WallMask: {r: 1, g: 1, b: 1, a: 1}
   Tiles: []
   WallWidth: 2
 --- !u!114 &11450574
@@ -101,7 +101,24 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: Terrain.Array.data[2].WallSprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 3a41ca119881b464787325cb38bb9229,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: Terrain.Array.data[2].WallMask.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: Terrain.Array.data[2].WallMask.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: Terrain.Array.data[2].WallMask.b
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 175072}
