@@ -45,6 +45,6 @@ public class WorldMapGUIHandler : MonoBehaviour {
 
     public void BtnClickEnterBuilding()
     {
-        Debug.LogWarning("Attempt to enter building. NOT IMPLEMENTED.");
+        TavernScreen.SetActive(true);
     }
 }
