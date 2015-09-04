@@ -2,10 +2,11 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class TileDetails : MonoBehaviour {
+public class WorldMapGUIHandler : MonoBehaviour {
 
     public Button StartRaidBtn;
     public Button EnterBuildingBtn;
+    public GameObject TavernScreen;
 
 	void Start()
     {
@@ -37,12 +38,12 @@ public class TileDetails : MonoBehaviour {
         EnterBuildingBtn.gameObject.SetActive(false);
     }
 
-    public void StartRaidBtnClick()
+    public void BtnClickStartRaid()
     {
         DataCarrier.LoadRaidMapScene(WorldMap.Instance.SelectedTileData, null);
     }
 
-    public void EnterBuildingBtnClick()
+    public void BtnClickEnterBuilding()
     {
         Debug.LogWarning("Attempt to enter building. NOT IMPLEMENTED.");
     }

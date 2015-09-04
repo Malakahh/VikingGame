@@ -1,0 +1,1 @@
+Small flag (on a pole) that fits on, but not obscures, WorldMap Hexagon Tiles. This should be a pirate flag, see "Jolly Ragner" in sketches. This flag will signify that this tile has been completed.
