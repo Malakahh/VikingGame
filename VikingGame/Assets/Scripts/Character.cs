@@ -9,14 +9,7 @@ public class Character : MonoBehaviour {
         set { _owned = value; }
     }
 
-
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    public Sprite Model;
+    public Sprite Icon;
+    public Weapon Weapon;
 }

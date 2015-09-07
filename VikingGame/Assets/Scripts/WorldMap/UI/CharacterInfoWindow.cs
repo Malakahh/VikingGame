@@ -33,7 +33,7 @@ public class CharacterInfoWindow : MonoBehaviour {
 
 	void Setup()
     {
-        CharacterImage.sprite = Character.GetComponent<Image>().sprite;
+        CharacterImage.sprite = Character.Model;
     }
 
     public void Cancel()

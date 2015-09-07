@@ -41,6 +41,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4fe16d3146a0774387ea88c69c45e06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Characters:
+  - {fileID: 11401286, guid: 40c02ee7f319d78478d99746a3ecfeb1, type: 2}
+  - {fileID: 11488004, guid: 0bef2e5c2ac5a0e48944b90b0a68d14d, type: 2}
+  - {fileID: 11441708, guid: 3422cc5a8b0bf084396ff3c3adb73d39, type: 2}
+  - {fileID: 11472178, guid: d5ea2a0158218084da01984b89e2f75a, type: 2}
+  - {fileID: 11436520, guid: 018aa5cc22bdf9a429de44324d211fc7, type: 2}
 --- !u!114 &11460936
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -63,13 +69,13 @@ MonoBehaviour:
     Text: Forest
     Sprites:
     - {fileID: 21300000, guid: 04ab3ffb7af1ba044b3c85c9e1ff79f9, type: 3}
-    Mask: {r: 1, g: 1, b: 1, a: 1}
+    Mask: {r: .760784388, g: .760784388, b: .760784388, a: 1}
     Weight: 1
   - TerrainType: 2
     Text: Mountains
     Sprites:
     - {fileID: 21300000, guid: cca67092c2a9a154cb7dc5532cb63a23, type: 3}
-    Mask: {r: 1, g: 1, b: 1, a: 1}
+    Mask: {r: .70588237, g: .70588237, b: .70588237, a: 1}
     Weight: 1
   Buildings:
   - BuildingType: 0

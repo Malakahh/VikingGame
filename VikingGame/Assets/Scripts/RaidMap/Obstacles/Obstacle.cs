@@ -32,8 +32,6 @@ public abstract class Obstacle : MonoBehaviour {
             Health = MaxHealth;
             ResetAndRelease();
         }
-
-        Debug.Log("Obstacle Damage taken: " + dmg + " Health: " + Health + "%");
     }
 
     protected abstract void ResetAndRelease();

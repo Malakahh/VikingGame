@@ -6,7 +6,6 @@ public class TavernScreen : MonoBehaviour {
 
     public Slider Slider;
     public Button[] CharacterSlots = new Button[3];
-    public List<Character> Characters = new List<Character>();
     
     int middleIndex = 1;
     float intervals;
@@ -19,15 +18,15 @@ public class TavernScreen : MonoBehaviour {
 
         CharacterSlots[0].onClick.AddListener(delegate
         { 
-            OnCharacterSlotClick(Characters[middleIndex - 1]); //Leftmost character
+            OnCharacterSlotClick(DataCarrier.PersistentData.AllCharacters[middleIndex - 1]); //Leftmost character
         });
         CharacterSlots[1].onClick.AddListener(delegate
         {
-            OnCharacterSlotClick(Characters[middleIndex]); //Center character
+            OnCharacterSlotClick(DataCarrier.PersistentData.AllCharacters[middleIndex]); //Center character
         });
         CharacterSlots[2].onClick.AddListener(delegate
         {
-            OnCharacterSlotClick(Characters[middleIndex + 1]); //Rightmost character
+            OnCharacterSlotClick(DataCarrier.PersistentData.AllCharacters[middleIndex + 1]); //Rightmost character
         });
 
         this.gameObject.SetActive(false);
@@ -47,26 +46,13 @@ public class TavernScreen : MonoBehaviour {
 
     void SetCharacters(int newMiddleIndex)
     {
-        Character left = Characters[newMiddleIndex - 1],
-                center = Characters[newMiddleIndex],
-                right = Characters[newMiddleIndex + 1];
+        Character left = DataCarrier.PersistentData.AllCharacters[newMiddleIndex - 1],
+                center = DataCarrier.PersistentData.AllCharacters[newMiddleIndex],
+                right = DataCarrier.PersistentData.AllCharacters[newMiddleIndex + 1];
 
-        left.gameObject.transform.position = new Vector3(
-            CharacterSlots[0].transform.position.x,
-            CharacterSlots[0].transform.position.y,
-            -1);
-        center.gameObject.transform.position = new Vector3(
-            CharacterSlots[1].transform.position.x,
-            CharacterSlots[1].transform.position.y,
-            -1);
-        right.gameObject.transform.position = new Vector3(
-            CharacterSlots[2].transform.position.x,
-            CharacterSlots[2].transform.position.y,
-            -1);
-
-        CharacterSlots[0].image.sprite = left.GetComponent<Image>().sprite;
-        CharacterSlots[1].image.sprite = center.GetComponent<Image>().sprite;
-        CharacterSlots[2].image.sprite = right.GetComponent<Image>().sprite;
+        CharacterSlots[0].image.sprite = left.Model;
+        CharacterSlots[1].image.sprite = center.Model;
+        CharacterSlots[2].image.sprite = right.Model;
     }
 
     void OnCharacterSlotClick(Character c)

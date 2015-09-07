@@ -1,9 +1,12 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections.Generic;
 
 public abstract class Weapon : MonoBehaviour {
     public enum WeaponAttachPoint { Left, Right };
     public BoxCollider2D WeaponCollider;
+
+    public Image Model;
 
     public WeaponAttachPoint AttachPoint = WeaponAttachPoint.Left;
 

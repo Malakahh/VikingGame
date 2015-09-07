@@ -8,6 +8,8 @@ public class WorldMap : MonoBehaviour {
     public delegate void SelectedTileDelegate(WorldMapHexagonTileData selectedTileData);
     public event SelectedTileDelegate OnSelectedTileChanged;
 
+    public List<Character> Characters = new List<Character>();
+
     private WorldMapHexagonTileData _selectedTileData;
     public WorldMapHexagonTileData SelectedTileData
     {
@@ -24,10 +26,16 @@ public class WorldMap : MonoBehaviour {
             }
         }
     }
+
     
     void Awake()
     {
         Instance = this;
+
+        if (DataCarrier.PersistentData.AllCharacters == null)
+        {
+            DataCarrier.PersistentData.AllCharacters = Characters;
+        }
     }
 
     void Start()

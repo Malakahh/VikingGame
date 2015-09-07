@@ -6,6 +6,8 @@ public static class DataCarrier {
     {
         //Key: TileCoord (as opposed to world coord); value: Tile 
         public static Dictionary<Vector2, WorldMapHexagonTileData> WorldRepresentation = new Dictionary<Vector2, WorldMapHexagonTileData>();
+
+        public static List<Character> AllCharacters;
     }
 
     public static WorldMapHexagonTileData SelectedTileData;
