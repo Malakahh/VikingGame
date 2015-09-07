@@ -5,42 +5,72 @@ using System.Collections.Generic;
 public class TavernScreen : MonoBehaviour {
 
     public Slider Slider;
-    public GameObject[] CharacterSlots = new GameObject[3];
+    public Button[] CharacterSlots = new Button[3];
     public List<Character> Characters = new List<Character>();
     
-    int prevMiddleIndex = 1;
+    int middleIndex = 1;
     float intervals;
 
 	void Start () {
         Slider.onValueChanged.AddListener(delegate { Slider_OnValueChanged(); });
 
         intervals = Slider.maxValue / (CharacterSlots.Length - 1);
-        Slider.value = prevMiddleIndex * intervals;
+        Slider.value = middleIndex * intervals;
+
+        CharacterSlots[0].onClick.AddListener(delegate
+        { 
+            OnCharacterSlotClick(Characters[middleIndex - 1]); //Leftmost character
+        });
+        CharacterSlots[1].onClick.AddListener(delegate
+        {
+            OnCharacterSlotClick(Characters[middleIndex]); //Center character
+        });
+        CharacterSlots[2].onClick.AddListener(delegate
+        {
+            OnCharacterSlotClick(Characters[middleIndex + 1]); //Rightmost character
+        });
 
         this.gameObject.SetActive(false);
 	}
 
     void Slider_OnValueChanged()
     {
-        int middleIndex = System.Convert.ToInt32(Slider.value / intervals) + 1;
+        int newMiddleIndex = System.Convert.ToInt32(Slider.value / intervals) + 1;
 
-        if (middleIndex != prevMiddleIndex)
+        if (newMiddleIndex != middleIndex)
         {
-            Characters[middleIndex - 1].gameObject.transform.position = CharacterSlots[0].transform.position + Vector3.back;
-            Characters[middleIndex].gameObject.transform.position = CharacterSlots[1].transform.position + Vector3.back;
-            Characters[middleIndex + 1].gameObject.transform.position = CharacterSlots[2].transform.position + Vector3.back;
+            SetCharacters(newMiddleIndex);
 
-            CharactersSetActive(prevMiddleIndex, false);
-            CharactersSetActive(middleIndex, true);
-
-            prevMiddleIndex = middleIndex;
+            middleIndex = newMiddleIndex;
         }
     }
 
-    void CharactersSetActive(int middleIndex, bool active)
+    void SetCharacters(int newMiddleIndex)
     {
-        Characters[middleIndex - 1].gameObject.SetActive(active);
-        Characters[middleIndex].gameObject.SetActive(active);
-        Characters[middleIndex + 1].gameObject.SetActive(active);
+        Character left = Characters[newMiddleIndex - 1],
+                center = Characters[newMiddleIndex],
+                right = Characters[newMiddleIndex + 1];
+
+        left.gameObject.transform.position = new Vector3(
+            CharacterSlots[0].transform.position.x,
+            CharacterSlots[0].transform.position.y,
+            -1);
+        center.gameObject.transform.position = new Vector3(
+            CharacterSlots[1].transform.position.x,
+            CharacterSlots[1].transform.position.y,
+            -1);
+        right.gameObject.transform.position = new Vector3(
+            CharacterSlots[2].transform.position.x,
+            CharacterSlots[2].transform.position.y,
+            -1);
+
+        CharacterSlots[0].image.sprite = left.GetComponent<Image>().sprite;
+        CharacterSlots[1].image.sprite = center.GetComponent<Image>().sprite;
+        CharacterSlots[2].image.sprite = right.GetComponent<Image>().sprite;
+    }
+
+    void OnCharacterSlotClick(Character c)
+    {
+        Debug.Log("Test");
     }
 }

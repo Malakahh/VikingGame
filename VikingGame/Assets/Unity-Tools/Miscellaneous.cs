@@ -2,6 +2,7 @@
 using System.Collections;
 
 public delegate void VoidDelegate();
+public delegate void VoidObjectDelegate(object obj);
 
 public static class ExtensionMethods {
     public static UnityEngine.Color RGB32(this UnityEngine.Color c, byte r, byte g, byte b)
