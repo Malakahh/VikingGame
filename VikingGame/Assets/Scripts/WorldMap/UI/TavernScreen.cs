@@ -71,6 +71,12 @@ public class TavernScreen : MonoBehaviour {
 
     void OnCharacterSlotClick(Character c)
     {
-        Debug.Log("Test");
+        CharacterInfoWindow.Instance.Character = c;
+        CharacterInfoWindow.Instance.gameObject.SetActive(true);
+    }
+
+    public void Cancel()
+    {
+        this.gameObject.SetActive(false);
     }
 }

@@ -1,14 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Character : MonoBehaviour {
-    private bool _owned;
-    public bool Owned
-    {
-        get { return _owned; }
-        set { _owned = value; }
-    }
-
+public class ShipSetupScreen : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
