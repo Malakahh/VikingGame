@@ -1,12 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ShipSetupScreen : MonoBehaviour {
-
-    void Awake()
-    {
-        //this.gameObject.SetActive(false);
-    }
+public class DropZone : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
