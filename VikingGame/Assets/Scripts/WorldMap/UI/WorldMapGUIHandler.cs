@@ -7,6 +7,7 @@ public class WorldMapGUIHandler : MonoBehaviour {
     public Button StartRaidBtn;
     public Button EnterBuildingBtn;
     public GameObject TavernScreen;
+    public GameObject ShipSetupScreen;
 
 	void Start()
     {
@@ -46,5 +47,10 @@ public class WorldMapGUIHandler : MonoBehaviour {
     public void BtnClickEnterBuilding()
     {
         TavernScreen.SetActive(true);
+    }
+
+    public void BtnClickShipSetup()
+    {
+        ShipSetupScreen.SetActive(true);
     }
 }

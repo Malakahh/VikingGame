@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class Ship : MonoBehaviour {
     public SpriteRenderer Sprite;
+    public List<Vector3> WeaponPositionsRelative = new List<Vector3>();
 
     int _health = 100;
     public int Health

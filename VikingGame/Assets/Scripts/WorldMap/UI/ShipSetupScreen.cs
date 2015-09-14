@@ -5,7 +5,7 @@ public class ShipSetupScreen : MonoBehaviour {
 
     void Awake()
     {
-        //this.gameObject.SetActive(false);
+        this.gameObject.SetActive(false);
     }
 
 	// Use this for initialization
@@ -17,4 +17,9 @@ public class ShipSetupScreen : MonoBehaviour {
 	void Update () {
 	
 	}
+
+    public void Cancel()
+    {
+        this.gameObject.SetActive(false);
+    }
 }

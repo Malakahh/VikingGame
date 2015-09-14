@@ -61,16 +61,13 @@ public class DragAndDrop : MonoBehaviour {
                     //Test if we've dropped on something of target type
                     if (info.collider.gameObject.GetComponent(TargetType) != null)
                     {
-                        Debug.Log("Hit!");
                         //Can drop!!
                         this.transform.position = info.collider.transform.position;
                         return true;
                     }
-                Debug.Log("Eh" + info.collider.gameObject.name);
             }
         }
 
-        Debug.Log("No hit");
         //No hit
         this.transform.position = initialPosition;
         return false;
