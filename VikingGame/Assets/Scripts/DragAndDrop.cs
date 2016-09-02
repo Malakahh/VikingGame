@@ -6,11 +6,14 @@ public class DragAndDrop : MonoBehaviour {
 
     private bool colliderAdded = false;
     private Vector3 initialPosition;
+    private Vector3 origPosition;
     private bool isDragging = false;
+    private bool isInItemRack = true;
 
     void Start()
     {
         TargetType = typeof(DropZone);
+        origPosition = this.transform.position;
         
         if (this.GetComponent<Collider2D>() == null)
         {
@@ -62,6 +65,7 @@ public class DragAndDrop : MonoBehaviour {
                     if (info.collider.gameObject.GetComponent(TargetType) != null)
                     {
                         //Can drop!!
+                        isInItemRack = false;
                         this.transform.position = info.collider.transform.position;
                         return true;
                     }
@@ -69,7 +73,16 @@ public class DragAndDrop : MonoBehaviour {
         }
 
         //No hit
-        this.transform.position = initialPosition;
+        if (isInItemRack)
+        {
+            this.transform.position = initialPosition;
+        }
+        else
+        {
+            this.transform.position = origPosition;
+            isInItemRack = true;
+        }
+
         return false;
     }
 
